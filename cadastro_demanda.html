@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Demanda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="cadastro_demanda.css">
+</head>
+<body>
+    
+    <form>
+        <h1>Cadastro de Demanda</h1>
+            <label for="titulo_id">Título: </label>
+            <input type="text" name="titulo" id="titulo_id">
+
+            <label for="descricao_id">Descrição: </label>
+            <textarea name="descricao" id="descricao_id" rows="5" cols="50" maxlength="200"></textarea>
+
+            <label for="tipodemanda_id">Tipo de Demanda: </label>
+            <select id="tipodemanda_id" name="tipo_de_demanda">
+                <option value="tarefa">Tarefa</option>
+                <option value="defeito">Defeito</option>
+                <option value="melhoria">Melhoria</option>
+                <option value="documentacao">Documentação</option>
+            </select>
+
+            <label for="prioridade_id">Prioridade: </label>
+            <select id="prioridade_id" name="prioridade">
+                <option value="critica">Crítica</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
+            <label for="status_id">Status: </label>
+            <select id="status_id" name="status" disabled>
+                <option value="aberta">Aberta</option>      <!-- Quando criada, o status automático é Aberta   -->
+                <option value="em_andamento">Em andamento</option>
+                <option value="em_revisao">Em revisão</option>
+                <option value="concluida">Concluída</option>
+                <option value="cancelada">Cancelada</option>
+            </select>
+
+            <label for="projeto_associado_id">Projeto Associado: </label>
+            <select id="projeto_associado_id" name="projeto_associado">
+                <option value="nenhum">Nenhum</option>
+            </select>
+
+            <label for="responsavel_id">Responsável: </label>
+            <select id="responsavel_id" name="responsavel">
+                <option value="nenhum">Nenhum</option>  <!--  Pode ser em branco na criação da demanda  -->
+            </select>
+
+            <!--  
+                Essas não adicionei porque serão inseridas automaticamente no BD
+
+            <label for="data_criacao_id">Data de Criação: </label>
+            <input type="date" name="data_criacao" id="data_criacao_id" disabled>
+
+            <label for="data_atualizacao_id">Data da Última Atualização: </label>
+            <input type="date" name="data_atualizacao" id="data_atualizacao_id" disabled>
+
+            -->
+            
+            <label for="prazo_finalizacao_id">Prazo de Finalização: </label>
+            <input type="date" name="prazo_finalizacao" id="prazo_finalizacao_id">
+
+            <br>
+            <input id="botaoEnviar_id" type="submit" value="Criar">
+    </form>
+</body>
+</html>
