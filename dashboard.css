@@ -1,0 +1,115 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  margin: auto;
+}
+
+
+
+nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+nav p {
+    display: flex;
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+}
+
+nav h1 {
+    margin: 10px;
+}
+
+
+
+#box-demandas {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #fff;
+    margin: 2px;
+}
+
+#box-demandas h3 {
+    margin: 10px;
+}
+
+#filtros {
+    border-top: 1px solid;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#lista-demandas {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-top: 1px solid;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#lista-demandas ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#lista-demandas li {
+    margin: 1px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+
+
+#informacoes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.info-box {
+    display: flex;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #fff;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 150px;
+    width: 210px;
+}
+
+.importante {
+    height: 150px;
+    width: 49%;
+}
+
+.multiplo {
+    width: 49%;
+    height: 200px;
+}
+
+.categorias, .numeros {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}

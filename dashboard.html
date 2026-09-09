@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    
+</body>
+    <header>
+        <nav>
+            <h1>Dashboard</h1>
+            <p><a href="login.html" target="_self">Sair</a></p>
+        </nav>
+    </header>
+
+    <div id="box-demandas">
+        <h3>Demandas</h3>
+
+        <div id="filtros">
+
+            <p style="margin: 10px;">Filtrar por: </p>
+            <select name="filtroStatus" id="filtroStatus">
+                <option value="" disabled selected hidden>Status</option>
+                <option value="Aberto">Aberto</option>
+                <option value="Em Andamento">Em Andamento</option>
+                <option value="Em Revisão">Em Revisão</option>
+                <option value="Concluída">Concluída</option>
+                <option value="Cancelada">Cancelada</option>
+            </select>
+
+            <select name="filtroPrioridade" id="filtroPrioridade">
+                <option value="" disabled selected hidden>Prioridade</option>
+                <option value="Crítica">Crítica</option>
+                <option value="Alta">Alta</option>
+                <option value="Média">Média</option>
+                <option value="Baixa">Baixa</option>
+            </select>
+        </div>
+
+        <!-- demandas serão atualizadas de acordo com o banco-->
+        <div id="lista-demandas">
+            <ul>
+                <li>Demanda 1 - Exemplo</li>
+                <li>Demanda 2 - Exemplo</li>
+                <li>Demanda 3 - Exemplo</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- isso tudo será atualizado de acordo com o banco-->
+    <div id="informacoes">
+        <div class="info-box importante">
+            <h1>0</h1>
+            <p>Demandas Críticas Abertas</p>
+        </div>
+
+        <div class="info-box importante">
+            <h1>0</h1>
+            <p>Demandas Próximas ao Prazo</p>
+        </div>
+
+        <div class="info-box multiplo">
+            <p>Demandas por Tipo</p>
+            <div class="numeros">
+                <h1>0</h1>
+                <h1>0</h1>
+                <h1>0</h1>
+                <h1>0</h1>
+            </div>
+            <div class="categorias">
+                <p>Tarefa</p> 
+                <p>Defeito </p>
+                <p>Melhoria</p>
+                <p>Documentação</p>
+            </div>
+        </div>
+
+        <div class="info-box multiplo">
+            <p>Demandas por Prioridade</p>
+            <div class="numeros">
+                <h1>0</h1>
+                <h1>0</h1>
+                <h1>0</h1>
+                <h1>0</h1>
+            </div>
+            <div class="categorias">
+                <p>Crítica</p> 
+                <p>Alta</p>
+                <p>Média</p>
+                <p>Baixa</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas Totais</p>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas Abertas</p>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas em Andamento</p>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas em Revisão</p>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas Concluídas</p>
+        </div>
+
+        <div class="info-box">
+            <h1>0</h1>
+            <p>Demandas Canceladas</p>
+        </div>
+
+    </div>
+
+</html>
