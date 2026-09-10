@@ -25,29 +25,31 @@
 
             <p style="margin: 10px;">Filtrar por: </p>
             <select name="filtroStatus" id="filtroStatus">
-                <option value="" disabled selected hidden>Status</option>
-                <option value="Aberto">Aberto</option>
-                <option value="Em Andamento">Em Andamento</option>
-                <option value="Em Revisão">Em Revisão</option>
-                <option value="Concluída">Concluída</option>
-                <option value="Cancelada">Cancelada</option>
+                <option value="" disabled selected>Status</option>
+                <option value="aberto">Aberto</option>
+                <option value="em_andamento">Em Andamento</option>
+                <option value="em_revisao">Em Revisão</option>
+                <option value="concluida">Concluída</option>
+                <option value="cancelada">Cancelada</option>
             </select>
 
             <select name="filtroPrioridade" id="filtroPrioridade">
-                <option value="" disabled selected hidden>Prioridade</option>
-                <option value="Crítica">Crítica</option>
-                <option value="Alta">Alta</option>
-                <option value="Média">Média</option>
-                <option value="Baixa">Baixa</option>
+                <option value="" disabled selected>Prioridade</option>
+                <option value="critica">Crítica</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
             </select>
+
+            <p style="margin-inline: 50px;"><a href="cadastro_demanda.html" target="_self">Criar Demanda</a></p>
         </div>
 
         <!-- demandas serão atualizadas de acordo com o banco-->
         <div id="lista-demandas">
             <ul>
-                <li>Demanda 1 - Exemplo</li>
-                <li>Demanda 2 - Exemplo</li>
-                <li>Demanda 3 - Exemplo</li>
+                <li><a href="edicao_demanda.html" target="_self">Demanda 1 - Exemplo</a></li>
+                <li><a href="edicao_demanda.html" target="_self">Demanda 2 - Exemplo</a></li>
+                <li><a href="edicao_demanda.html" target="_self">Demanda 3 - Exemplo</a></li>
             </ul>
         </div>
     </div>
