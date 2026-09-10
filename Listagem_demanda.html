@@ -16,18 +16,39 @@
 
     <header>
         <nav>
-            <div class="logo">Nome da Empresa</div>
+            <div class="logo">Sistema SADD</div>
             <ul class="menu">
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Demandas</a></li>
+                <li><a href="dashboard.html">Início</a></li>
+                <li><a href="Listagem_demanda.html">Demandas</a></li>
                 <li><a href="#">Projetos</a></li>
                 <li><a href="#">Equipe</a></li>
-                <li><a href="#">Sair</a></li>
+                <li><a href="login.html">Sair</a></li>
             </ul>
         </nav>
     </header>
 
+    <div id="buscar">Buscar: 
+        <form>
+            <input type="text" name="txtbox_buscar" id="txtbox_buscar_id">
+            <input id="botaoBuscar_id" type="submit" value="Buscar">
+        </form>
+    </div>
+
+    <div id="filtro">Filtrar por: 
+        <form>
+            <select id="filtro_lista_id" name="filtro_lista">
+                <option value="id">ID</option>
+                <option value="status">Status</option>
+                <option value="prioridade">Prioridade</option>
+                <option value="tipo">Tipo</option>
+                <option value="responsavel">Responsável</option>
+                <option value="projeto">Projeto</option>
+            </select>
+        </form>
+    </div>
+
     <main>
+        
 
         <h1>Listagem de Demandas</h1>
 
@@ -35,48 +56,80 @@
             <li class="demanda-card">
                 <span class="numero">1</span>
                 <span class="nome-demanda">Corrigir erro no login</span>
-                <a href="#" class="ver-detalhes">Ver detalhes</a>
+                <p> Tipo: Defeito <br>
+                    Prioridade: Média   <br>
+                    Status: Aberta
+                </p>
+                <a href="detalhes_demandas.html" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">2</span>
                 <span class="nome-demanda">Atualizar documentação da API</span>
+                <p> Tipo: Melhoria <br>
+                    Prioridade: Média   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">3</span>
                 <span class="nome-demanda">Criar tela de relatórios</span>
+                <p> Tipo: Tarefa <br>
+                    Prioridade: Média   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">4</span>
                 <span class="nome-demanda">Otimizar consultas do banco</span>
+                <p> Tipo: Melhoria <br>
+                    Prioridade: Alta   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">5</span>
                 <span class="nome-demanda">Revisar layout do dashboard</span>
+                <p> Tipo: Melhoria <br>
+                    Prioridade: Baixa   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">6</span>
                 <span class="nome-demanda">Configurar backup automático</span>
+                <p> Tipo: Tarefa <br>
+                    Prioridade: Média   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">7</span>
                 <span class="nome-demanda">Implementar autenticação em duas etapas</span>
+                <p> Tipo: Tarefa <br>
+                    Prioridade: Alta   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 
             <li class="demanda-card">
                 <span class="numero">8</span>
                 <span class="nome-demanda">Ajustar responsividade mobile</span>
+                <p> Tipo: Melhoria <br>
+                    Prioridade: Baixa   <br>
+                    Status: Aberta
+                </p>
                 <a href="#" class="ver-detalhes">Ver detalhes</a>
             </li>
 

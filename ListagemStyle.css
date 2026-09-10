@@ -104,3 +104,33 @@ footer {
   color: #4a4a3f;
   padding: 16px;
 }
+
+#buscar, #filtro{
+  background-color: #ede4d3;
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin:20px 16%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input,
+select,
+textarea {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #c9c1a4;
+  background-color: #F5EFE0;
+  color: #3d3625;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #A0522D;
+  box-shadow: 0 0 8px rgba(160, 82, 45, 0.4);
+}
