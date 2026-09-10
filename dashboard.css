@@ -1,115 +1,169 @@
+/*
+  Thomas lazarini Wecke 
+*/
+
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f4f4;
-  margin: auto;
+  background: linear-gradient(135deg, #85744b, #e8dfc8);
+  color: #4a4a3f;
+  margin: 0;
+  padding: 20px;
 }
 
-
-
-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid;
-    border-radius: 5px;
-    width: 100%;
-    background-color: #fff;
-    margin-bottom: 10px;
-}
-nav p {
-    display: flex;
-    border: 1px solid;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
+header {
+  max-width: 1100px;
+  margin: 0 auto 20px auto;
+  background-color: #ede4d3;
+  border-radius: 12px;
+  padding: 16px 24px;
 }
 
-nav h1 {
-    margin: 10px;
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+header h1 {
+  color: #4a4a3f;
+  font-size: 22px;
+  margin: 0;
+}
 
+header a {
+  color: #6b7a4f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
 
 #box-demandas {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: 2px;
+  max-width: 1100px;
+  margin: 0 auto 20px auto;
+  background-color: #ede4d3;
+  border-radius: 12px;
+  padding: 24px 32px;
 }
 
 #box-demandas h3 {
-    margin: 10px;
+  color: #4a4a3f;
+  margin-top: 0;
 }
 
 #filtros {
-    border-top: 1px solid;
-    border-radius: 5px;
-    display: inline-flex;
-    align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-#lista-demandas {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    border-top: 1px solid;
-    border-radius: 5px;
-    background-color: #fff;
+#filtros select {
+  background-color: #f4efe2;
+  color: #4a4a3f;
+  border: 1px solid #cabb95;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-right: 12px;
+}
+
+#filtros a {
+  color: #6b7a4f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#filtros a:hover {
+  text-decoration: underline;
 }
 
 #lista-demandas ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 #lista-demandas li {
-    margin: 1px;
-    padding: 10px;
-    border: 1px solid;
-    border-radius: 5px;
+  background-color: #f4efe2;
+  border: 1px solid #cabb95;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
 }
 
+#lista-demandas a {
+  color: #4a4a3f;
+  text-decoration: none;
+}
 
+#lista-demandas a:hover {
+  color: #6b7a4f;
+}
 
 #informacoes {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .info-box {
-    display: flex;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: 5px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 150px;
-    width: 210px;
+  background-color: #ede4d3;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  flex: 1;
+  min-width: 160px;
 }
 
-.importante {
-    height: 150px;
-    width: 49%;
+.info-box h1 {
+  color: #6b7a4f;
+  margin: 0 0 8px 0;
+  font-size: 32px;
 }
 
-.multiplo {
-    width: 49%;
-    height: 200px;
+.info-box p {
+  margin: 0;
+  color: #4a4a3f;
 }
 
-.categorias, .numeros {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
+.info-box.importante h1 {
+  color: #b5673b;
+}
+
+.info-box.multiplo {
+  flex-basis: 100%;
+  text-align: left;
+}
+
+.info-box.multiplo > p {
+  color: #4a4a3f;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.info-box.multiplo .numeros {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-box.multiplo .numeros h1 {
+  color: #6b7a4f;
+}
+
+.info-box.multiplo .categorias {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info-box.multiplo .categorias p {
+  color: #4a4a3f;
+  font-size: 14px;
 }

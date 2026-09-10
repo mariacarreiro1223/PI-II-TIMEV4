@@ -1,30 +1,83 @@
+/*
+  Thomas lazarini Wecke 
+*/
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #85744b, #e8dfc8);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4a4a3f;
 }
 
 main {
-    width: 300px;
-    margin: 50px auto;
+  background-color: #ede4d3;
+  border-radius: 12px;
+  padding: 32px 40px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+h1 {
+  color: #4a4a3f;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+forme {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 label {
-    display: block;
-    margin-bottom: 5px;
+  color: #6b7a4f;
+  font-weight: bold;
+  margin-bottom: 4px;
 }
 
 input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
+  background-color: #f4efe2;
+  border: 1px solid #cabb95;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  font-size: 15px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    cursor: pointer;
+  background-color: #6b7a4f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+button:hover {
+  background-color: #59683f;
 }
 
 p {
-    text-align: center;
+  margin: 12px 0 0 0;
+}
+
+a {
+  color: #b5673b;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+a:hover {
+  text-decoration: underline;
 }
