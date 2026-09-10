@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Demanda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="detalhes_demandas.css">
+</head>
+<body>
+    <section class = "titulo-descricao">
+        <h1 id="titulo-demanda">Erro ao cadastrar usuário</h1>
+        <p>
+            <strong>Status:</strong>
+            <span id="status">Aberta</span>
+        </p>
+        <p>
+            <strong>Descrição:</strong>
+            <span id = "descricao-demanda">
+            O sistema não aceita o CPF que estou tentano cadastrar
+            </span>
+        </p>
+    </section>
+
+    <section class = "informacoes-demanda">
+        <p>
+            <strong>Tipo:</strong>
+            <span id="tipo-demanda">Defeito</span>
+        </p>
+        <p>
+            <strong>Prioridade:</strong>
+            <span id="prioridade">Média</span>
+        </p>
+
+        <p>
+            <strong>Projeto Associado:</strong>
+            <span id="projeto-associado">Sistema de cadastro</span>
+        </p>
+
+        <p>
+            <strong>Responsável pela task:</strong>
+            <span id="responsavel">Nenhum</span>
+        </p>
+
+        <p>
+            <strong>Data de criação:</strong>
+            <span id="data-criacao">08/09/2026 às 09:35
+            </span>
+        </p>
+
+        <p>
+            <strong>Última atualização:</strong>
+            <span id="data-atualizacao">
+                09/09/2026 às 20:30
+            </span>
+        </p>
+
+        <p>
+            <strong>Prazo para conclusão:</strong>
+            <span id="prazo">20/09/2026</span>
+        </p>
+    </section>
+
+    <section class="comentarios">
+        <h2>Comentários</h2>
+
+        <article class="comentario">
+            <p>
+                <strong>João:</strong>
+                Testei com e sem pontuação e não funcionou.
+                <br>
+                <small>09/09/2026 às 14:30</small>
+            </p>
+        </article>
+
+        <form>
+            <label for="novo-comentario">
+                <strong>Adicione um novo comentário:</strong>
+            </label>
+            <br>
+            <textarea 
+            id="Comentarios" 
+            rows="5" cols="50" 
+            maxlength="100" 
+            disabled></textarea>
+            <br>
+            <input id="enviarComentario" type="submit" value="Enviar">
+        </form>
+    </section>
+
+    <section class="historico-demanda">
+        <br>
+        <h2>Histórico de alterações</h2>
+
+        <ul>
+            <li>
+                09/09/2026 às 14:30:
+                João deixou um novo comentário.
+            </li>
+
+            <li>
+                08/09/2026 às 09:35:
+                A demanda foi criada.
+                </li>
+            </ul>
+        </section>
+
+</body>
+</html>
