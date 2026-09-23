@@ -1,0 +1,24 @@
+{
+  "name": "pi-ii-timev4",
+  "version": "1.0.0",
+  "description": "Repositório do Sistema De Acompanhamento De Demandas De Desenvolvimento; Turma 103 e Grupo V4 - Projeto Integrador II, Engenharia de Software; Instituição PUC Campinas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariacarreiro1223/PI-II-TIMEV4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mariacarreiro1223/PI-II-TIMEV4/issues"
+  },
+  "homepage": "https://github.com/mariacarreiro1223/PI-II-TIMEV4#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
