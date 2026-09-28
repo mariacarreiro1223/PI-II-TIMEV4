@@ -108,7 +108,8 @@ input.is-invalid {
 #erroNascimento,
 #erroEmail,
 #erroSenha,
-#erroConfirmacaoSenha {
+#erroConfirmacaoSenha,
+.invalid-feedback {
   color: #dc3545 !important;
   margin-bottom: 6px;
 }

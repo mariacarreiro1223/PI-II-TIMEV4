@@ -177,8 +177,20 @@ formulario.addEventListener("submit",function (event) {
             mostrarErro(camposenha,erroSenha,"A senha deve ter no mínimo 8 caracteres!");
             formValido = false;
         } 
-        else if (!possuiEspecial||!possuiMaiuscula||!possuiMinuscula||!possuiNumero){
-            mostrarErro(camposenha,erroSenha,"Senha inválida!");
+        else if (!possuiEspecial){
+            mostrarErro(camposenha,erroSenha,"Senha precisa ter no mínimo um caracter especial [_@!]");
+            formValido = false;
+        }
+        else if (!possuiMaiuscula){
+            mostrarErro(camposenha,erroSenha,"Senha precisa ter no mínimo um caracter maiúsculo!");
+            formValido = false;
+        }
+        else if (!possuiMinuscula){
+            mostrarErro(camposenha,erroSenha,"Senha precisa ter no mínimo um caracter minúsculo!");
+            formValido = false;
+        }
+        else if (!possuiNumero){
+            mostrarErro(camposenha,erroSenha,"Senha precisa ter no mínimo um número!");
             formValido = false;
         }
     }
