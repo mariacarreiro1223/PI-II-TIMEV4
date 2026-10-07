@@ -1,0 +1,63 @@
+/*
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // File Layout
+    // "rootDir": "./src",
+    // "outDir": "./dist",
+
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+  }
+}
+*/
+
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src", // Diretório de códigos TypeScript
+    "outDir": "lib", // Diretório de saída para os arquivos compilados
+    "sourceMap": true, // Gera mapas de origem para facilitar o debug
+    "noImplicitAny": true, // Não permite declaração de variáveis ou parâmetros sem tipo
+    "noImplicitReturns": true, // Verifica se todas as funções possuem tipo de retorno informado
+    "noEmitOnError": true, // Não gera o código JS caso haja algum erro durante o processo de compilação
+    "strictNullChecks": true, // Força a verificação de valores null ou undefined
+    "noUnusedLocals": true // Sinaliza quando existem variáveis declaradas e não utilizadas
+  },
+  "compileOnSave": true,
+  "include": ["src/**/*"],
+  "exclude": ["**/*.spec.ts"]
+}
