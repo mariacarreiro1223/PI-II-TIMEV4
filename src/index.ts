@@ -230,5 +230,35 @@ app.post("/cadastro",(req: Request, res: Response) => {
         "dataNasc": "1985-02-01",
         "email": "heathcliff@gmail.com",
         "senha": "1234Abcde_"
+    }   
+*/
+
+
+// atualmente retorna somente a quantidade de todas as demandas de acordo com o dashboard
+// a página em si padroniza valores nulos para 0
+app.get("/dashboard", (req: Request, res: Response) => {
+    let {proximas,criticas,altas,medias,baixas,tarefas,defeitos,melhorias,docs,total,abertas,andamento,revisao,concluidas,canceladas} = req.body;
+
+    res.status(200).json({proximas,criticas,altas,medias,baixas,tarefas,defeitos,melhorias,docs,total,abertas,andamento,revisao,concluidas,canceladas});
+});
+
+/* JSON para testar a quantidade de demandas:
+
+    {
+        "proximas": 2,
+        "criticas": 3,
+        "altas": 5,
+        "medias": 3,
+        "baixas": 4,
+        "tarefas": 4,
+        "defeitos": 3,
+        "melhorias": 5,
+        "docs": 3,
+        "total": 15,
+        "abertas": 10,
+        "andamento": 2,
+        "revisao": 1,
+        "concluidas": 1,
+        "canceladas": 1
     }
 */
