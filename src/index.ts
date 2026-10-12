@@ -230,35 +230,197 @@ app.post("/cadastro",(req: Request, res: Response) => {
         "dataNasc": "1985-02-01",
         "email": "heathcliff@gmail.com",
         "senha": "1234Abcde_"
-    }   
-*/
-
-
-// atualmente retorna somente a quantidade de todas as demandas de acordo com o dashboard
-// a página em si padroniza valores nulos para 0
-app.get("/dashboard", (req: Request, res: Response) => {
-    let {proximas,criticas,altas,medias,baixas,tarefas,defeitos,melhorias,docs,total,abertas,andamento,revisao,concluidas,canceladas} = req.body;
-
-    res.status(200).json({proximas,criticas,altas,medias,baixas,tarefas,defeitos,melhorias,docs,total,abertas,andamento,revisao,concluidas,canceladas});
-});
-
-/* JSON para testar a quantidade de demandas:
-
-    {
-        "proximas": 2,
-        "criticas": 3,
-        "altas": 5,
-        "medias": 3,
-        "baixas": 4,
-        "tarefas": 4,
-        "defeitos": 3,
-        "melhorias": 5,
-        "docs": 3,
-        "total": 15,
-        "abertas": 10,
-        "andamento": 2,
-        "revisao": 1,
-        "concluidas": 1,
-        "canceladas": 1
     }
 */
+
+
+interface demandaFormato {
+    id: number;
+    titulo: string;
+    descricao: string;
+    tipo: string;
+    prioridade: string;
+    status: string;
+    projeto: string;
+    responsavel: string;
+    dataCriacao: Date;
+    dataAtualizacao: Date;
+    prazo: string;
+}
+
+let demandas: demandaFormato[] = [
+    {
+        id: 1,
+        titulo: "Corrigir erro no login",
+        descricao: "O sistema não aceita o espaço no final da senha",
+        tipo: "defeito",
+        prioridade: "media",
+        status: "aberta",
+        projeto: "Sistema de login",
+        responsavel: "nenhum",
+        dataCriacao: new Date("2026-09-08T09:35:00"),
+        dataAtualizacao: new Date("2026-09-09T20:30:00"),
+        prazo: "2026-11-20"
+    },
+
+    {
+        id: 2,
+        titulo: "Atualizar documentação da API",
+        descricao: "Documentar todas as rotas novas do sistema",
+        tipo: "melhoria",
+        prioridade: "media",
+        status: "aberta",
+        projeto: "nenhum",
+        responsavel: "nenhum",
+        dataCriacao: new Date("2026-09-10T10:00:00"),
+        dataAtualizacao: new Date("2026-09-10T10:00:00"),
+        prazo: "2026-12-05"
+    },
+
+    {
+        id: 3,
+        titulo: "Implementar autenticação em duas etapas",
+        descricao: "Adicionar uma segunda etapa de verificação no login",
+        tipo: "tarefa",
+        prioridade: "alta",
+        status: "em_andamento",
+        projeto: "Sistema de login",
+        responsavel: "nenhum",
+        dataCriacao: new Date("2026-09-15T14:20:00"),
+        dataAtualizacao: new Date("2026-09-28T16:45:00"),
+        prazo: "2026-11-30"
+    }
+];
+
+app.get("/demandas",(req: Request, res: Response) => {
+    const status = req.query.status;
+    const prioridade = req.query.prioridade;
+    const tipo = req.query.tipo;
+
+    let demandasExibidas: demandaFormato[] = [];
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        const demanda = demandas[cont];
+        if((!status || status===demanda.status) && (!prioridade || prioridade===demanda.prioridade) && (!tipo || tipo===demanda.tipo))
+        {
+            demandasExibidas.push(demanda);
+        }
+    }
+    return res.status(200).json(demandasExibidas);
+});
+
+app.get("/demandas/:id",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const demanda = demandas.find((item) => item.id === id);
+
+    if(!demanda)
+    {
+        return res.status(404).json({mensagem: "Demanda não encontrada!"});
+    }
+    return res.status(200).json(demanda);
+});
+
+app.post("/demandas",(req: Request, res: Response) => {
+    const {titulo,descricao,tipo,prioridade,projeto,responsavel,prazo} = req.body;
+
+    if(!titulo||!descricao||!tipo||!prioridade||!prazo)
+    {
+        return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
+    }
+
+    if(titulo.trim()==="")
+    {
+        return res.status(400).json({mensagem: "Título inválido!"});
+    }
+
+    if(descricao.trim().split(/\s+/).length < 3)
+    {
+        return res.status(400).json({mensagem: "Descrição muito curta!"});
+    }
+
+    if(descricao.length > 500)
+    {
+        return res.status(400).json({mensagem: "Descrição deve ter até 500 caracteres!"});
+    }
+
+    if(tipo!=="tarefa" && tipo!=="defeito" && tipo!=="melhoria" && tipo!=="documentacao")
+    {
+        return res.status(400).json({mensagem: "Tipo de demanda inválido!"});
+    }
+
+    if(prioridade!=="critica" && prioridade!=="alta" && prioridade!=="media" && prioridade!=="baixa")
+    {
+        return res.status(400).json({mensagem: "Prioridade inválida!"});
+    }
+
+    const formatoPrazo = /^\d{4}-\d{2}-\d{2}$/.test(prazo);
+    const dataPrazo = new Date(`${prazo}T00:00:00`);
+    const prazoMinimo = new Date();
+    prazoMinimo.setDate(prazoMinimo.getDate() + 10);
+    if(!formatoPrazo || dataPrazo < prazoMinimo)
+    {
+        return res.status(400).json({mensagem: "O prazo deve ser superior a 10 dias a partir da abertura da demanda!"});
+    }
+
+    const hoje = new Date();
+
+    const novaDemanda : demandaFormato =
+    {
+        id: demandas.length + 1,
+        titulo: titulo.trim(),
+        descricao: descricao.trim(),
+        tipo,
+        prioridade,
+        status: "aberta",
+        projeto: projeto || "nenhum",
+        responsavel: responsavel || "nenhum",
+        dataCriacao: hoje,
+        dataAtualizacao: hoje,
+        prazo
+    };
+
+    demandas.push(novaDemanda);
+    return res.status(201).json(novaDemanda);
+});
+
+app.put("/demandas/:id",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const demanda = demandas.find((item) => item.id === id);
+
+    if(!demanda)
+    {
+        return res.status(404).json({mensagem: "Demanda não encontrada!"});
+    }
+
+    const {prioridade,status,responsavel,prazo} = req.body;
+
+    if(!prioridade||!status||!prazo)
+    {
+        return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
+    }
+
+    if(prioridade!=="critica" && prioridade!=="alta" && prioridade!=="media" && prioridade!=="baixa")
+    {
+        return res.status(400).json({mensagem: "Prioridade inválida!"});
+    }
+
+    if(status!=="aberta" && status!=="em_andamento" && status!=="em_revisao" && status!=="concluida" && status!=="cancelada")
+    {
+        return res.status(400).json({mensagem: "Status inválido!"});
+    }
+
+    const hoje = new Date();
+    const dataPrazo = new Date(`${prazo}T23:59:59`);
+    if(dataPrazo < hoje)
+    {
+        return res.status(400).json({mensagem: "Prazo não pode ser anterior a hoje!"});
+    }
+
+    demanda.prioridade = prioridade;
+    demanda.status = status;
+    demanda.responsavel = responsavel || "nenhum";
+    demanda.prazo = prazo;
+    demanda.dataAtualizacao = hoje;
+
+    return res.status(200).json(demanda);
+});
