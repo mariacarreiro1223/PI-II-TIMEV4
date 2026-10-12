@@ -424,3 +424,69 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
 
     return res.status(200).json(demanda);
 });
+
+
+interface projetoFormato {
+    id: number;
+    nome: string;
+    descricao: string;
+    demandas?: demandaFormato[];
+}
+
+let projetos: projetoFormato[] = [
+    {
+        id: 1,
+        nome: "Sistema de login",
+        descricao: "Telas e regras de login e cadastro de usuários"
+    },
+
+    {
+        id: 2,
+        nome: "Documentação da API",
+        descricao: "Documentação das rotas do servidor"
+    }
+];
+
+function buscarDemandasDoProjeto(nomeProjeto: string)
+{
+    let demandasDoProjeto: demandaFormato[] = [];
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        if(demandas[cont].projeto === nomeProjeto)
+        {
+            demandasDoProjeto.push(demandas[cont]);
+        }
+    }
+    return demandasDoProjeto;
+}
+
+app.get("/projetos",(req: Request, res: Response) => {
+    let projetosExibidos: projetoFormato[] = [];
+    for(let cont=0; cont<projetos.length; cont++)
+    {
+        const projeto = projetos[cont];
+        projetosExibidos.push({
+            id: projeto.id,
+            nome: projeto.nome,
+            descricao: projeto.descricao,
+            demandas: buscarDemandasDoProjeto(projeto.nome)
+        });
+    }
+    return res.status(200).json(projetosExibidos);
+});
+
+app.get("/projetos/:id",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const projeto = projetos.find((item) => item.id === id);
+
+    if(!projeto)
+    {
+        return res.status(404).json({mensagem: "Projeto não encontrado!"});
+    }
+    return res.status(200).json({
+        id: projeto.id,
+        nome: projeto.nome,
+        descricao: projeto.descricao,
+        demandas: buscarDemandasDoProjeto(projeto.nome)
+    });
+});
