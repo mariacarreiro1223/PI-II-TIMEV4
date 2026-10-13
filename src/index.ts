@@ -490,3 +490,117 @@ app.get("/projetos/:id",(req: Request, res: Response) => {
         demandas: buscarDemandasDoProjeto(projeto.nome)
     });
 });
+
+function filtrarDemandasPorTipo(demandas:demandaFormato[], tipo: String) {
+
+    let demandasFiltradas: demandaFormato[] = [];
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        if(demandas[cont].tipo === tipo)
+        {
+            demandasFiltradas.push(demandas[cont]);
+        }
+    }
+    return demandasFiltradas;
+}
+
+function filtrarDemandasPorPrioridade(demandas:demandaFormato[], prioridade: String) {
+
+    let demandasFiltradas: demandaFormato[] = [];
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        if(demandas[cont].prioridade === prioridade)
+        {
+            demandasFiltradas.push(demandas[cont]);
+        }
+    }
+    return demandasFiltradas;
+}
+
+function filtrarDemandasPorStatus(demandas:demandaFormato[], status: String) {
+
+    let demandasFiltradas: demandaFormato[] = [];
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        if(demandas[cont].status === status)
+        {
+            demandasFiltradas.push(demandas[cont]);
+        }
+    }
+    return demandasFiltradas;
+}
+
+function filtrarDemandasProximas(demandas:demandaFormato[]) {
+
+    let demandasFiltradas: demandaFormato[] = [];
+    
+    for(let cont=0; cont<demandas.length; cont++)
+    {
+        let prazoDemanda = new Date(demandas[cont].prazo);
+        let prazoFiltro = new Date(prazoDemanda);
+        prazoFiltro.setDate(prazoFiltro.getDate() - 7) //próximo nesse caso é 1 semana
+
+        let dataAtual = new Date();
+        dataAtual.toISOString().split('T')[0]; // torna a data para o formato aaaa-mm-dd
+        if(dataAtual > prazoFiltro && dataAtual < prazoDemanda)
+        {
+            demandasFiltradas.push(demandas[cont]);
+        }
+    }
+    return demandasFiltradas;
+}
+
+app.get("/dashboard/:nomeProjeto", (req: Request, res: Response) => {
+    const nomeProjeto = String(req.params.nomeProjeto);
+    const demandas = buscarDemandasDoProjeto(nomeProjeto);
+
+    const projeto = projetos.find((item) => item.nome === nomeProjeto);
+    if (!projeto) {
+        return res.status(404).json({mensagem: "Projeto não encontrado!"});
+    }
+    
+    const demandasCriticas = filtrarDemandasPorPrioridade(demandas, "critica");
+    const demandasProximas = filtrarDemandasProximas(demandas);
+
+    const qtdCriticas = demandasCriticas.length;
+    const qtdProximas = demandasProximas.length;
+
+    const qtdAltas = filtrarDemandasPorPrioridade(demandas, "alta").length;
+    const qtdMedias = filtrarDemandasPorPrioridade(demandas, "media").length;
+    const qtdBaixas = filtrarDemandasPorPrioridade(demandas, "baixa").length;
+
+    const qtdTarefas = filtrarDemandasPorTipo(demandas, "tarefa").length;
+    const qtdDefeitos = filtrarDemandasPorTipo(demandas, "defeito").length;
+    const qtdMelhorias = filtrarDemandasPorTipo(demandas, "melhoria").length;
+    const qtdDocs = filtrarDemandasPorTipo(demandas, "documentacao").length;
+
+    const qtdAbertas = filtrarDemandasPorStatus(demandas, "aberta").length;
+    const qtdAndamento = filtrarDemandasPorStatus(demandas, "em_andamento").length;
+    const qtdRevisao = filtrarDemandasPorStatus(demandas, "em_revisao").length;
+    const qtdConcluidas = filtrarDemandasPorStatus(demandas, "concluida").length;
+    const qtdCanceladas = filtrarDemandasPorStatus(demandas, "cancelada").length;
+
+    const demandasCriticasAbertas = filtrarDemandasPorStatus(demandasCriticas, "aberta");
+    const demandasProximasAbertas = filtrarDemandasPorStatus(demandasProximas, "aberta");
+
+    const arrayQtdImportante = {"criticas": qtdCriticas, "proximas": qtdProximas};
+    const arrayQtdPrioridade = {"criticas": qtdCriticas, "altas": qtdAltas, "medias":qtdMedias, "baixas":qtdBaixas};
+    const arrayQtdTipo = {"tarefas": qtdTarefas, "defeitos": qtdDefeitos, "melhorias": qtdMelhorias, "docs": qtdDocs};
+    const arrayQtdStatus = {"abertas": qtdAbertas, "em_andamento": qtdAndamento, "em_revisao": qtdRevisao, "concluidas": qtdConcluidas, "canceladas": qtdCanceladas};
+
+    return res.status(200).json({
+        demandas_criticas: demandasCriticasAbertas,
+        demandas_proximas: demandasProximasAbertas,
+
+        qtd_demandas_importantes: arrayQtdImportante,
+        qtd_demandas_por_prioridade: arrayQtdPrioridade,
+        qtd_demandas_por_tipo: arrayQtdTipo,
+        qtd_demandas_por_status: arrayQtdStatus
+    });
+});
+
+/* queries atuais para a dashboard:
+
+    Sistema de login
+    nenhum
+*/
