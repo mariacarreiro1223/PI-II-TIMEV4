@@ -10,12 +10,11 @@ Abaixo estão os membros da equipe que desenvolveram este projeto:
 * **Alexandre Carvalhinho Pavani**
 * **Isaque Ryo Cruz Tanno**
 * **Maria Eduarda Gonçalves Carreiro**
-* **Rodrigo Foglieni**
 * **Thomas Lazarini wecke**
 
 
 ## Professor Responsavel:
-* **fernando.luiz@puc-campinas.edu.br** 
+* **fernando luiz
 ---
 
 ## Instalações:
