@@ -425,6 +425,106 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
     return res.status(200).json(demanda);
 });
 
+interface comentarioFormato {
+    id: number;
+    idDemanda: number;
+    autor: string;
+    texto: string;
+    data: Date;
+}
+
+let comentarios: comentarioFormato[] = [
+    {
+        id: 1,
+        idDemanda: 1,
+        autor: "João",
+        texto: "Testei com e sem pontuação e não funcionou.",
+        data: new Date("2026-09-09T14:30:00")
+    }
+];
+
+// Lista todos os comentários de uma demanda
+app.get("/demandas/:id/comentarios",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const demanda = demandas.find((item) => item.id === id);
+
+    if(!demanda)
+    {
+        return res.status(404).json({mensagem: "Demanda não encontrada!"});
+    }
+
+    let comentariosExibidos: comentarioFormato[] = [];
+    for(let cont=0; cont<comentarios.length; cont++)
+    {
+        if(comentarios[cont].idDemanda === id)
+        {
+            comentariosExibidos.push(comentarios[cont]);
+        }
+    }
+    return res.status(200).json(comentariosExibidos);
+});
+
+// Busca um comentário específico de uma demanda
+app.get("/demandas/:id/comentarios/:idComentario",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const idComentario = Number(req.params.idComentario);
+
+    const demanda = demandas.find((item) => item.id === id);
+    if(!demanda)
+    {
+        return res.status(404).json({mensagem: "Demanda não encontrada!"});
+    }
+
+    const comentario = comentarios.find((item) => item.id === idComentario && item.idDemanda === id);
+    if(!comentario)
+    {
+        return res.status(404).json({mensagem: "Comentário não encontrado!"});
+    }
+    return res.status(200).json(comentario);
+});
+
+// Adiciona um comentário novo em uma demanda
+app.post("/demandas/:id/comentarios",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const demanda = demandas.find((item) => item.id === id);
+
+    if(!demanda)
+    {
+        return res.status(404).json({mensagem: "Demanda não encontrada!"});
+    }
+
+    const {autor,texto} = req.body;
+
+    if(!autor||!texto)
+    {
+        return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
+    }
+
+    if(texto.trim()==="")
+    {
+        return res.status(400).json({mensagem: "Comentário inválido!"});
+    }
+
+    if(texto.length > 100)
+    {
+        return res.status(400).json({mensagem: "Comentário deve ter até 100 caracteres!"});
+    }
+
+    const hoje = new Date();
+
+    const novoComentario : comentarioFormato =
+    {
+        id: comentarios.length + 1,
+        idDemanda: id,
+        autor: autor.trim(),
+        texto: texto.trim(),
+        data: hoje
+    };
+
+    comentarios.push(novoComentario);
+    demanda.dataAtualizacao = hoje;
+    return res.status(201).json(novoComentario);
+});
 
 interface projetoFormato {
     id: number;
