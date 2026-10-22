@@ -1,4 +1,5 @@
 import express, {Request, Response} from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = 3000;
@@ -12,6 +13,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(express.json());
+app.use(cors());
 
 
 function calcularIdade(dataNascimento:string) {
