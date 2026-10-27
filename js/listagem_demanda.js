@@ -16,7 +16,17 @@ async function carregarProjeto()
     {
         return;
     }
+
+    const projeto_nome = await GETnomeprojeto(id);
+    if(!projeto_nome)
+    {
+        return;
+    }
+    
+    const link_dashboard = document.getElementById("link-dashboard");
+    link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(projeto_nome.nome)}">Início</a>`;
     renderizarDemanda(demandas);
+    return;
 }
 
 function renderizarDemanda(demandas)

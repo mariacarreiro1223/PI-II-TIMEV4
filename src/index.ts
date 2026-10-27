@@ -720,3 +720,70 @@ app.get("/dashboard/:nomeProjeto", (req: Request, res: Response) => {
     Sistema de login
     nenhum
 */
+
+interface historicoFormato {
+    id: number;
+    demanda: number;
+    datahora: string;
+    alteracao: string;
+}
+
+let historico : historicoFormato[] = [
+    {
+        id:1,
+        demanda:1,
+        datahora:"2026-09-08T11:30:00:000Z",
+        alteracao:"João alterou a prioridade para media"
+    },
+    {
+        id:2,
+        demanda:1,
+        datahora:"2026-09-09T14:35:00:000Z",
+        alteracao:"João alterou o tipo para defeito"
+    }
+];
+
+app.get("/historico/:id", (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if(!id)
+    {
+        return res.status(400).json({mensagem: "ID inválido!"});
+    }
+    const alteracoes = historico.filter((item) => {
+        return item.demanda === id;
+    })
+
+    if(!alteracoes)
+    {
+        return res.status(404).json({mensagem: "Alterações não encontradas"});
+    }
+    return res.status(200).json(alteracoes);
+});
+
+app.get("/projetoid/:nome", (req: Request, res: Response) => {
+    const nome = decodeURIComponent(String(req.params.nome).trim());
+    if(!nome)
+    {
+        return res.status(400).json({mensagem: "Nome inválido!"});
+    }
+    const projeto = projetos.find((item) => item.nome === nome)
+    if(!projeto)
+    {
+        return res.status(404).json({mensagem: "Projeto com este nome não encontrado"});
+    }
+    return res.status(200).json({id: projeto.id});
+});
+
+app.get("/projetonome/:id", (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if(!id)
+    {
+        return res.status(400).json({mensagem: "ID inválido!"});
+    }
+    const projeto = projetos.find((item) => item.id === id)
+    if(!projeto)
+    {
+        return res.status(404).json({mensagem: "Projeto com este id não encontrado"});
+    }
+    return res.status(200).json({nome: projeto.nome});
+});

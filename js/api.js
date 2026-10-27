@@ -86,3 +86,42 @@ async function GETdashboard(projeto_nome)
     const resposta = await fetch(url);
     return await tratarRespostaApi(resposta);
 }
+
+async function GEThistorico(demanda_id)
+{
+    let url = `${API_BASE_URL}/historico/`;
+    if(!demanda_id)
+    {
+        url += `x`;
+    }
+    url += `${encodeURIComponent(demanda_id)}`;
+
+    const resposta = await fetch(url);
+    return await tratarRespostaApi(resposta);
+}
+
+async function GETidprojeto(nome_projeto)
+{
+    let url = `${API_BASE_URL}/projetoid/`;
+    if(!nome_projeto)
+    {
+        url += `x`;
+    }
+    url += `${encodeURIComponent(nome_projeto)}`;
+
+    const resposta = await fetch(url);
+    return await tratarRespostaApi(resposta);
+}
+
+async function GETnomeprojeto(id_projeto)
+{
+    let url = `${API_BASE_URL}/projetonome/`;
+    if(!id_projeto)
+    {
+        url += `x`;
+    }
+    url += `${encodeURIComponent(id_projeto)}`;
+
+    const resposta = await fetch(url);
+    return await tratarRespostaApi(resposta);
+}

@@ -24,11 +24,26 @@ async function carregarDemanda()
         return;
     }
 
-    renderizarDemanda(demanda);
+    const historico = await GEThistorico(id)
+    if(!historico)
+    {
+        return;
+    }
+
+    const projeto_id = await GETidprojeto(demanda.projeto);
+    if(!projeto_id)
+    {
+        return;
+    }
+
+
+    renderizarDemanda(demanda, projeto_id.id);
     renderizarComentarios(comentarios);
+    renderizarHistorico(historico);
+    return;
 }
 
-function renderizarDemanda(demanda)
+function renderizarDemanda(demanda, projeto_id)
 {
     if(!demanda)
     {
@@ -63,7 +78,12 @@ function renderizarDemanda(demanda)
     data_criacao.innerHTML = `${data_c.dia}/${data_c.mes}/${data_c.ano} às ${data_c.hora}:${data_c.minuto}`;
     data_atualizacao.innerHTML = `${data_at.dia}/${data_at.mes}/${data_at.ano} às ${data_at.hora}:${data_at.minuto}`;
     prazo.innerHTML = `${prazo_f.dia}/${prazo_f.mes}/${prazo_f.ano}`;
+
+    const link_demandas = document.getElementById("link-demandas");
+    link_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${projeto_id}">Demandas</a>`;
     
+    const link_dashboard = document.getElementById("link-dashboard");
+    link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(demanda.projeto)}">Início</a>`;
 }
 
 function formatarDatetime(data)
@@ -130,6 +150,35 @@ function renderizarComentarios(comentarios)
                     <small>${data.dia}/${data.mes}/${data.ano} às ${data.hora}:${data.minuto}</small>
                 </p>
             </article>
+        `
+    });
+    return;
+
+}
+
+function renderizarHistorico(historico)
+{
+    const lista = document.getElementById("lista-historico");
+    lista.innerHTML = "";
+
+    if(!historico || historico.length==0)
+    {
+        lista.innerHTML = `
+            <li>
+                Nenhuma alteração realizada
+            </li>
+        `;
+        return;
+    }
+
+    historico.forEach((alteracao_item) =>
+    {
+        const data = formatarDatetime(alteracao_item.datahora);
+        lista.innerHTML += `
+            <li>
+                ${data.dia}/${data.mes}/${data.ano} às ${data.hora}:${data.minuto} - 
+                ${alteracao_item.alteracao}
+            </li>
         `
     });
     return;
