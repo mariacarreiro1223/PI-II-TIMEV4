@@ -73,3 +73,16 @@ async function GETcomentarios(demanda_id)
     const resposta = await fetch(url);
     return await tratarRespostaApi(resposta);
 }
+
+async function GETdashboard(projeto_nome)
+{
+    let url = `${API_BASE_URL}/dashboard/`;
+    if(!projeto_nome)
+    {
+        url += `x`;
+    }
+    url += `${encodeURIComponent(projeto_nome)}`;
+
+    const resposta = await fetch(url);
+    return await tratarRespostaApi(resposta);
+}

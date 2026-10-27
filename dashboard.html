@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="style.css">
     <script defer src="../js/api.js"></script>
+    <script defer src="../js/dashboard.js"></script>
 </head>
 
 <body class="pagina-dashboard">
@@ -17,7 +18,7 @@
             <div class="logo">Sistema SADD</div>
             <ul class="menu">
                 <li><a href="dashboard.html">Início</a></li>
-                <li><a href="Listagem_demanda.html">Demandas</a></li>
+                <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
                 <li><a href="#">Projetos</a></li>
                 <li><a href="#">Equipe</a></li>
                 <li><a href="login.html">Sair</a></li>
@@ -26,7 +27,7 @@
     </header>
 
     <div id="titulo">
-        <h1>Dashboard</h1>
+        <h1 id="titulo-texto">Dashboard: </h1>
     </div>
 
     <div id="box-demandas">
@@ -69,22 +70,22 @@
     <!-- isso tudo será atualizado de acordo com o banco-->
     <div id="informacoes">
         <div class="info-box importante">
-            <h1>0</h1>
+            <h1 id="demandas_criticas_abertas">0</h1>
             <p>Demandas Críticas Abertas</p>
         </div>
 
         <div class="info-box importante">
-            <h1>0</h1>
+            <h1 id="demandas_prox_prazo">0</h1>
             <p>Demandas Próximas ao Prazo</p>
         </div>
 
         <div class="info-box multiplo">
             <p>Demandas por Tipo</p>
             <div class="numeros">
-                <h1>0</h1>
-                <h1>0</h1>
-                <h1>0</h1>
-                <h1>0</h1>
+                <h1 id="demandas_tarefa">0</h1>
+                <h1 id="demandas_defeito">0</h1>
+                <h1 id="demandas_melhoria">0</h1>
+                <h1 id="demandas_documentacao">0</h1>
             </div>
             <div class="categorias">
                 <p>Tarefa</p> 
@@ -97,13 +98,11 @@
         <div class="info-box multiplo">
             <p>Demandas por Prioridade</p>
             <div class="numeros">
-                <h1>0</h1>
-                <h1>0</h1>
-                <h1>0</h1>
-                <h1>0</h1>
+                <h1 id="demandas_alta">0</h1>
+                <h1 id="demandas_media">0</h1>
+                <h1 id="demandas_baixa">0</h1>
             </div>
             <div class="categorias">
-                <p>Crítica</p> 
                 <p>Alta</p>
                 <p>Média</p>
                 <p>Baixa</p>
@@ -111,32 +110,32 @@
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_totais">0</h1>
             <p>Demandas Totais</p>
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_abertas">0</h1>
             <p>Demandas Abertas</p>
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_andamento">0</h1>
             <p>Demandas em Andamento</p>
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_revisao">0</h1>
             <p>Demandas em Revisão</p>
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_concluidas">0</h1>
             <p>Demandas Concluídas</p>
         </div>
 
         <div class="info-box">
-            <h1>0</h1>
+            <h1 id="demandas_canceladas">0</h1>
             <p>Demandas Canceladas</p>
         </div>
 
