@@ -285,7 +285,7 @@ let demandas: demandaFormato[] = [
         descricao: "Adicionar uma segunda etapa de verificação no login",
         tipo: "tarefa",
         prioridade: "alta",
-        status: "em_andamento",
+        status: "em andamento",
         projeto: "Sistema de login",
         responsavel: "nenhum",
         dataCriacao: new Date("2026-09-15T14:20:00"),
@@ -406,7 +406,7 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
         return res.status(400).json({mensagem: "Prioridade inválida!"});
     }
 
-    if(status!=="aberta" && status!=="em_andamento" && status!=="em_revisao" && status!=="concluida" && status!=="cancelada")
+    if(status!=="aberta" && status!=="em andamento" && status!=="em revisao" && status!=="concluida" && status!=="cancelada")
     {
         return res.status(400).json({mensagem: "Status inválido!"});
     }
@@ -593,6 +593,18 @@ app.get("/projetos/:id",(req: Request, res: Response) => {
     });
 });
 
+app.get("/projetos/demandas/:id",(req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const projeto = projetos.find((item) => item.id === id);
+
+    if(!projeto)
+    {
+        return res.status(404).json({mensagem: "Projeto não encontrado!"});
+    }
+    const demandas = buscarDemandasDoProjeto(projeto.nome);
+    return res.status(200).json(demandas);
+});
+
 function filtrarDemandasPorTipo(demandas:demandaFormato[], tipo: String) {
 
     let demandasFiltradas: demandaFormato[] = [];
@@ -677,8 +689,8 @@ app.get("/dashboard/:nomeProjeto", (req: Request, res: Response) => {
     const qtdDocs = filtrarDemandasPorTipo(demandas, "documentacao").length;
 
     const qtdAbertas = filtrarDemandasPorStatus(demandas, "aberta").length;
-    const qtdAndamento = filtrarDemandasPorStatus(demandas, "em_andamento").length;
-    const qtdRevisao = filtrarDemandasPorStatus(demandas, "em_revisao").length;
+    const qtdAndamento = filtrarDemandasPorStatus(demandas, "em andamento").length;
+    const qtdRevisao = filtrarDemandasPorStatus(demandas, "em revisao").length;
     const qtdConcluidas = filtrarDemandasPorStatus(demandas, "concluida").length;
     const qtdCanceladas = filtrarDemandasPorStatus(demandas, "cancelada").length;
 
@@ -688,7 +700,7 @@ app.get("/dashboard/:nomeProjeto", (req: Request, res: Response) => {
     const arrayQtdImportante = {"criticas": qtdCriticas, "proximas": qtdProximas};
     const arrayQtdPrioridade = {"criticas": qtdCriticas, "altas": qtdAltas, "medias":qtdMedias, "baixas":qtdBaixas};
     const arrayQtdTipo = {"tarefas": qtdTarefas, "defeitos": qtdDefeitos, "melhorias": qtdMelhorias, "docs": qtdDocs};
-    const arrayQtdStatus = {"abertas": qtdAbertas, "em_andamento": qtdAndamento, "em_revisao": qtdRevisao, "concluidas": qtdConcluidas, "canceladas": qtdCanceladas};
+    const arrayQtdStatus = {"abertas": qtdAbertas, "em andamento": qtdAndamento, "em revisao": qtdRevisao, "concluidas": qtdConcluidas, "canceladas": qtdCanceladas};
 
     return res.status(200).json({
         demandas_criticas: demandasCriticasAbertas,

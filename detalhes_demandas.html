@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script defer src="../js/api.js"></script>
+    <script defer src="../js/detalhes_demanda.js"></script>
 </head>
 <body class="pagina-detalhes">
     <header>
@@ -83,14 +84,17 @@
     <section class="comentarios">
         <h2>Comentários</h2>
 
-        <article class="comentario">
-            <p>
-                <strong>João:</strong>
-                Testei com e sem pontuação e não funcionou.
-                <br>
-                <small>09/09/2026 às 14:30</small>
-            </p>
-        </article>
+        <section id="lista-comentarios">
+            <article class="comentario">
+                <p>
+                    <strong>João:</strong>
+                    Testei com e sem pontuação e não funcionou.
+                    <br>
+                    <small>09/09/2026 às 14:30</small>
+                </p>
+            </article>
+        </section>
+        
 
         <form>
             <label for="novo-comentario">
@@ -98,7 +102,7 @@
             </label>
             <br>
             <textarea 
-            id="Comentarios" 
+            id="novo-comentario" 
             rows="5" cols="50" 
             maxlength="100" 
             disabled></textarea>
