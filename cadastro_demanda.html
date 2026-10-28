@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="style.css">
     <script src="script_cad_demanda.js" defer></script>
     <script defer src="../js/api.js"></script>
+    <script defer src="../js/cadastro_demanda.js"></script>
+    
 </head>
 
 <body class="pagina-demanda">
@@ -20,8 +22,8 @@
         <nav>
             <div class="logo">Sistema SADD</div>
             <ul class="menu">
-                <li><a href="dashboard.html">Início</a></li>
-                <li><a href="Listagem_demanda.html">Demandas</a></li>
+                <li id="link-dashboard"><a href="dashboard.html">Início</a></li>
+                <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
                 <li><a href="#">Projetos</a></li>
                 <li><a href="#">Equipe</a></li>
                 <li><a href="login.html">Sair</a></li>
@@ -71,8 +73,8 @@
         <div id="erro_status_id" class="invalid-feedback"></div>
 
         <label for="projeto_associado_id">Projeto Associado: </label>
-        <select id="projeto_associado_id" name="projeto_associado">
-            <option value="nenhum">Nenhum</option>
+        <select id="projeto_associado_id" name="projeto_associado" disabled>
+            <option value="nenhum" id="nome-projeto">Nenhum</option>
         </select>
         <div id="erro_projeto_associado_id" class="invalid-feedback"></div>
 

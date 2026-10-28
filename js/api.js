@@ -125,3 +125,23 @@ async function GETnomeprojeto(id_projeto)
     const resposta = await fetch(url);
     return await tratarRespostaApi(resposta);
 }
+
+async function POSTdemanda(demanda)
+{
+    let url = `${API_BASE_URL}/demandas`;
+    if(!demanda)
+    {
+        url += `x`;
+    }
+
+    const resposta = await fetch(url, 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(demanda)
+        }
+    );
+    return await tratarRespostaApi(resposta);
+}

@@ -124,6 +124,7 @@ formulario.addEventListener("submit",function(event) {
 
     if (formValido){
         resultado.classList.remove("d-none");
+        cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
         formulario.reset();
     }
     else {

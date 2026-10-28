@@ -71,7 +71,11 @@ function renderizarDashboard(dados)
     const link_demandas = document.getElementById("link-demandas");
     link_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${dados.id}">Demandas</a>`;
 
-    //const lista_demandas = document.getElementById("lista-demandas");
+    const link_cadastro_demandas = document.getElementById("link-cadastro-demanda");
+    link_cadastro_demandas.innerHTML = `<a href="cadastro_demanda.html?id=${dados.id}" target="_self">Criar Demanda</a>`;
+
+    const lista_demandas = document.getElementById("lista-demandas-link2");
+    lista_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${dados.id}">Listagem de Demandas</a>`;
 
     return;
 }
