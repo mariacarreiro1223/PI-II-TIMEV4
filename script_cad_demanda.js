@@ -56,7 +56,7 @@ function limparErros() {
 }
 
 
-formulario.addEventListener("submit",function(event) {
+formulario.addEventListener("submit",async function(event) {
 
     event.preventDefault();
     limparErros();
@@ -124,7 +124,7 @@ formulario.addEventListener("submit",function(event) {
 
     if (formValido){
         resultado.classList.remove("d-none");
-        cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
+        await cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
         formulario.reset();
     }
     else {

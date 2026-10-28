@@ -167,3 +167,25 @@ async function PUTdemanda(demanda, id)
     );
     return await tratarRespostaApi(resposta);
 }
+
+async function POSTcomentario(comentario, id)
+{
+    let url = `${API_BASE_URL}/demandas`;
+    if(!comentario)
+    {
+        url += `x`;
+    }
+
+    url += `/${encodeURIComponent(id)}/comentarios`;
+
+    const resposta = await fetch(url, 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(comentario)
+        }
+    );
+    return await tratarRespostaApi(resposta);
+}

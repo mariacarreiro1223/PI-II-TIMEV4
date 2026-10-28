@@ -186,3 +186,33 @@ function renderizarHistorico(historico)
 }
 
 window.addEventListener("DOMContentLoaded", carregarDemanda());
+
+const formulario = document.getElementById("adicionar-comentario");
+formulario.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const texto_novo = document.getElementById("novo-comentario");
+    const parametros = new URLSearchParams(window.location.search);
+    const id = parametros.get("id");
+
+    if(!texto_novo || texto_novo.value === "" || !id)
+    {
+        return;
+    }
+
+    const responsavel = document.getElementById("responsavel");
+    
+    const dados = {autor:responsavel.innerHTML,texto:texto_novo.value};
+
+
+    const comentario = await POSTcomentario(dados, id);
+    if(!comentario)
+    {
+        return;
+    }
+    const comentarios = await GETcomentarios(id)
+    if(!comentarios)
+    {
+        return;
+    }
+    renderizarComentarios(comentarios);
+});
