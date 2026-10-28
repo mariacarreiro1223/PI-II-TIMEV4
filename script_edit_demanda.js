@@ -78,7 +78,6 @@ formulario.addEventListener("submit", function(event) {
             prazo: prazo.value
         };
         atualizarDemanda(nova_demanda);
-        formulario.reset();
     }
 
     console.log("Validação: Sucesso");
