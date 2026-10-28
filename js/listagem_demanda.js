@@ -54,7 +54,8 @@ function renderizarDemanda(demandas)
                     Prioridade: ${demanda.prioridade}   <br>
                     Status: ${demanda.status}
                 </p>
-                <a href="detalhes_demandas.html?id=${demanda.id}" class="ver-detalhes">Ver detalhes</a>
+                <a href="detalhes_demandas.html?id=${demanda.id}" class="ver-detalhes">Ver detalhes</a> 
+                <a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>
             </li>`;
         cont++;
     });

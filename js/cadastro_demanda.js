@@ -21,7 +21,7 @@ async function carregarInfo()
     link_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${id_projeto}">Demandas</a>`;
 }
 
-async function cadastrarDemanda(demanda,responsavel_nome="Joao")
+async function cadastrarDemanda(demanda,responsavel_nome="nenhum")
 {
     const nova_demanda =
     {
@@ -33,7 +33,6 @@ async function cadastrarDemanda(demanda,responsavel_nome="Joao")
         responsavel: responsavel_nome,
         prazo: demanda.prazo
     };
-    console.log(nova_demanda);
     const resposta = await POSTdemanda(nova_demanda);
     if(!resposta)
     {

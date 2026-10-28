@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script_edit_demanda.js" defer></script>
     <script defer src="../js/api.js"></script>
+    <script defer src="../js/edicao_demanda.js"></script>
 </head>
 <body class="pagina-demanda">
     
@@ -19,8 +20,8 @@
         <nav>
             <div class="logo">Sistema SADD</div>
             <ul class="menu">
-                <li><a href="dashboard.html">Início</a></li>
-                <li><a href="Listagem_demanda.html">Demandas</a></li>
+                <li id="link-dashboard"><a href="dashboard.html">Início</a></li>
+                <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
                 <li><a href="#">Projetos</a></li>
                 <li><a href="#">Equipe</a></li>
                 <li><a href="login.html">Sair</a></li>
@@ -62,14 +63,10 @@
             </select>
 
             <label for="projeto_associado_id">Projeto Associado: </label>
-            <select id="projeto_associado_id" name="projeto_associado" disabled>
-                <option value="nenhum">Nenhum</option>
-            </select>
+            <input type="text" id="projeto_associado_id" name="projeto_associado" disabled>
 
             <label for="responsavel_id">Responsável: </label>
-            <select id="responsavel_id" name="responsavel">
-                <option value="nenhum">Nenhum</option>  <!--  Pode ser em branco na criação da demanda  -->
-            </select>
+            <input type="text" id="responsavel_id" name="responsavel">
 
             <!--  
                 Essas não adicionei porque serão inseridas automaticamente no BD

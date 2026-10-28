@@ -70,6 +70,14 @@ formulario.addEventListener("submit", function(event) {
 
     if (formValido) {
         resultado.classList.remove("d-none");
+        const nova_demanda =
+        {
+            prioridade: prioridade.value,
+            status: stat.value,
+            responsavel: resp.value,
+            prazo: prazo.value
+        };
+        atualizarDemanda(nova_demanda);
         formulario.reset();
     }
 

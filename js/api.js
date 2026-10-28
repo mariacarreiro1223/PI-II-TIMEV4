@@ -145,3 +145,25 @@ async function POSTdemanda(demanda)
     );
     return await tratarRespostaApi(resposta);
 }
+
+async function PUTdemanda(demanda, id)
+{
+    let url = `${API_BASE_URL}/demandas`;
+    if(!demanda)
+    {
+        url += `x`;
+    }
+
+    url += `/${encodeURIComponent(id)}`;
+
+    const resposta = await fetch(url, 
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(demanda)
+        }
+    );
+    return await tratarRespostaApi(resposta);
+}
