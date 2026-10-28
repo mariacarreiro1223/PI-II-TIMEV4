@@ -8,6 +8,9 @@ const camposenha = document.querySelector("#senha_id");
 const erroEmail = document.querySelector("#erroEmail");
 const erroSenha = document.querySelector("#erroSenha");
 
+const resultado = document.querySelector("#resultado");
+const resultadomsg = document.querySelector("#msg-resultado");
+
 const campos = [
     campoemail,
     camposenha
@@ -35,7 +38,7 @@ function limparErros() {
     });
 }
 
-formulario.addEventListener("submit",function (event) {
+formulario.addEventListener("submit",async function (event) {
     event.preventDefault();
     limparErros();
 
@@ -88,8 +91,25 @@ formulario.addEventListener("submit",function (event) {
     }
 
     if (formValido){
-        resultado.classList.remove("d-none");
-        formulario.reset();
+        const login={email,senha};
+        try
+        {
+            dados = await POSTlogin(login);
+            if(dados)
+            {
+                resultado.classList.remove("d-none");
+                resultadomsg.classList.remove("alert-danger");
+                resultadomsg.classList.add("alert-sucess");
+                resultadomsg.innerHTML = "Usuário OK";
+            }
+        }
+        catch
+        {
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-sucess");
+            resultadomsg.classList.add("alert-danger");
+            resultadomsg.innerHTML = "Email ou senha inválidos";
+        }
     } 
     else {
         resultado.classList.add("d-none");

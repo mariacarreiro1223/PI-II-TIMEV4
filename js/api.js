@@ -189,3 +189,41 @@ async function POSTcomentario(comentario, id)
     );
     return await tratarRespostaApi(resposta);
 }
+
+async function POSTlogin(login)
+{
+    let url = `${API_BASE_URL}/login`;
+    if(!login)
+    {
+        url += `x`;
+    }
+    const resposta = await fetch(url, 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(login)
+        }
+    );
+    return await tratarRespostaApi(resposta);
+}
+
+async function POSTcadastro(cadastro)
+{
+    let url = `${API_BASE_URL}/cadastro`;
+    if(!cadastro)
+    {
+        url += `x`;
+    }
+    const resposta = await fetch(url, 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(cadastro)
+        }
+    );
+    return await tratarRespostaApi(resposta);
+}
