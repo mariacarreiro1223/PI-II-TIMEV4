@@ -30,47 +30,68 @@
     </div>
 
     <div id="box-demandas">
-        <h3>Demandas</h3>
-
+        <h1 class="mb-4">Demandas</h1>
         <div id="filtros">
-
-            <p style="margin: 10px;">Filtrar por: </p>
-            <select name="filtroStatus" id="filtroStatus">
-                <option value="" disabled selected>Status</option>
-                <option value="aberto">Aberto</option>
-                <option value="em_andamento">Em Andamento</option>
-                <option value="em_revisao">Em Revisão</option>
-                <option value="concluida">Concluída</option>
-                <option value="cancelada">Cancelada</option>
-            </select>
-
-            <select name="filtroPrioridade" id="filtroPrioridade">
-                <option value="" disabled selected>Prioridade</option>
-                <option value="critica">Crítica</option>
-                <option value="alta">Alta</option>
-                <option value="media">Média</option>
-                <option value="baixa">Baixa</option>
-            </select>
-
+            <p style="margin-inline: 50px;" id="lista-demandas-link2"><a href="Listagem_demanda.html" target="_self" style="text-decoration: none; font-weight: bold; color: inherit;">Lista de Demandas</a></p>
             <p style="margin-inline: 50px;" id="link-cadastro-demanda"><a href="cadastro_demanda.html" target="_self">Criar Demanda</a></p>
         </div>
 
-        <div id="lista-demandas" style="margin-top: 20px;">
-            <ul style="list-style-type: none; padding-left: 0;">
-                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;" id="lista-demandas-link2">
-                    <a href="Listagem_demanda.html" target="_self" style="text-decoration: none; font-weight: bold; color: inherit;">Lista de Demandas</a>
-                </li>
-                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
-                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 1</a>
-                </li>
-                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
-                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 2</a>
-                </li>
-                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
-                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 3</a>
-                </li>
-            </ul>
+        <h3>Demandas Críticas</h3>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle border">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-critica-demandas">
+                    
+                    <tr>
+                        <th scope="row">1</th>
+                        <td class="fw-bold">Corrigir login</td>
+                        <td><span class="badge bg-primary">aberta</span></td>
+                        <td>defeito</td>
+                        <td class="text-center">
+                            <a href="dashboard.html" class="btn btn-sm btn-outline-dark">Detalhes</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
+
+        <h3>Demandas Próximas</h3>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle border">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-proxima-demandas">
+                    
+                    <tr>
+                        <th scope="row">1</th>
+                        <td class="fw-bold">Melhorar UX</td>
+                        <td><span class="badge bg-primary">aberta</span></td>
+                        <td>melhoria</td>
+                        <td class="text-center">
+                            <a href="dashboard.html" class="btn btn-sm btn-outline-dark">Detalhes</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     <div id="informacoes">

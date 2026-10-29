@@ -20,6 +20,7 @@ async function carregarDashboard()
     const titulo = document.getElementById("titulo-texto");
     titulo.innerHTML += nome;
 
+    console.log(dashboard_dados);
     renderizarDashboard(dashboard_dados,nome);
 }
 
@@ -80,6 +81,77 @@ function renderizarDashboard(dados,nome)
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(nome)}">Projetos</a>`;
 
+    const tabela_critica = document.getElementById("tabela-critica-demandas");
+    tabela_critica.innerHTML="";
+    const tabela_proxima = document.getElementById("tabela-proxima-demandas");
+    tabela_proxima.innerHTML="";
+    let cont;
+
+    const criticas = dados.demandas_criticas;
+    const proximas = dados.demandas_proximas;
+    if (!criticas || criticas.length === 0) 
+    {
+        tabela_critica.innerHTML=`
+            <tr>
+                <th scope="row"></th>
+                <td class="fw-bold">Nenhuma demanda crítica aberta</td>
+                <td><span class="badge bg-primary"></span></td>
+                <td></td>
+                <td class="text-center"></td>
+            </tr>
+        `;
+    }
+    else
+    {
+        cont=1;
+        criticas.forEach((demanda) => {
+            if(demanda.status!=="cancelada")
+            {
+                tabela_critica.innerHTML+=`
+                    <tr>
+                        <th scope="row">${demanda.id}</th>
+                        <td class="fw-bold">${demanda.titulo}</td>
+                        <td><span class="badge bg-primary">${demanda.status}</span></td>
+                        <td>${demanda.tipo}</td>
+                        <td class="text-center"><a href="detalhes_demandas.html?id=${demanda.id}" class="btn btn-sm btn-outline-dark">Detalhes</a></td>
+                    </tr>
+                    `;
+                cont++;
+            }
+        });
+    }
+
+    if (!proximas || proximas.length === 0) 
+    {
+        tabela_proxima.innerHTML=`
+            <tr>
+                <th scope="row"></th>
+                <td class="fw-bold">Nenhuma demanda próxima aberta</td>
+                <td><span class="badge bg-primary"></span></td>
+                <td></td>
+                <td class="text-center"></td>
+            </tr>
+        `;
+    }
+    else
+    {
+        cont=1;
+        proximas.forEach((demanda) => {
+            if(demanda.status!=="cancelada")
+            {
+                tabela_proxima.innerHTML+=`
+                    <tr>
+                        <th scope="row">${demanda.id}</th>
+                        <td class="fw-bold">${demanda.titulo}</td>
+                        <td><span class="badge bg-primary">${demanda.status}</span></td>
+                        <td>${demanda.tipo}</td>
+                        <td class="text-center"><a href="detalhes_demandas.html?id=${demanda.id}" class="btn btn-sm btn-outline-dark">Detalhes</a></td>
+                    </tr>
+                    `;
+                cont++;
+            }
+        });
+    }
     return;
 }
 
