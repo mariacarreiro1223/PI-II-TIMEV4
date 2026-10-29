@@ -25,6 +25,9 @@ async function carregarProjeto()
     
     const link_dashboard = document.getElementById("link-dashboard");
     link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(projeto_nome.nome)}">Início</a>`;
+
+    const link_projeto = document.getElementById("link-projeto");
+    link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(projeto_nome.nome)}">Projetos</a>`;
     renderizarDemanda(demandas);
     return;
 }

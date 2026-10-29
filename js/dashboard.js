@@ -20,10 +20,10 @@ async function carregarDashboard()
     const titulo = document.getElementById("titulo-texto");
     titulo.innerHTML += nome;
 
-    renderizarDashboard(dashboard_dados);
+    renderizarDashboard(dashboard_dados,nome);
 }
 
-function renderizarDashboard(dados)
+function renderizarDashboard(dados,nome)
 {
     if(!dados)
     {
@@ -76,6 +76,9 @@ function renderizarDashboard(dados)
 
     const lista_demandas = document.getElementById("lista-demandas-link2");
     lista_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${dados.id}">Listagem de Demandas</a>`;
+
+    const link_projeto = document.getElementById("link-projeto");
+    link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(nome)}">Projetos</a>`;
 
     return;
 }

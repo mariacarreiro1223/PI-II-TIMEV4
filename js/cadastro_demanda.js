@@ -19,6 +19,9 @@ async function carregarInfo()
 
     const link_demandas = document.getElementById("link-demandas");
     link_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${id_projeto}">Demandas</a>`;
+
+    const link_projeto = document.getElementById("link-projeto");
+    link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(nome_projeto.nome)}">Projetos</a>`;
 }
 
 async function cadastrarDemanda(demanda,responsavel_nome="nenhum")

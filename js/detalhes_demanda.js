@@ -84,6 +84,9 @@ function renderizarDemanda(demanda, projeto_id)
     
     const link_dashboard = document.getElementById("link-dashboard");
     link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(demanda.projeto)}">Início</a>`;
+
+    const link_projeto = document.getElementById("link-projeto");
+    link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(demanda.projeto)}">Projetos</a>`;
 }
 
 function formatarDatetime(data)

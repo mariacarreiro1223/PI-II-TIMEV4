@@ -227,3 +227,18 @@ async function POSTcadastro(cadastro)
     );
     return await tratarRespostaApi(resposta);
 }
+
+async function GETprojetos(id_projeto)
+{
+    let url = `${API_BASE_URL}/projetos`;
+    /*
+    if(!id_projeto)
+    {
+        url += `x`;
+    }
+    url += `${encodeURIComponent(id_projeto)}`;
+    */
+
+    const resposta = await fetch(url);
+    return await tratarRespostaApi(resposta);
+}
