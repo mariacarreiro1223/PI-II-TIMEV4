@@ -20,7 +20,6 @@ async function carregarDashboard()
     const titulo = document.getElementById("titulo-texto");
     titulo.innerHTML += nome;
 
-    console.log(dashboard_dados);
     renderizarDashboard(dashboard_dados,nome);
 }
 

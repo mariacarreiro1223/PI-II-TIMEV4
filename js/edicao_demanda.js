@@ -1,4 +1,8 @@
+// Isaque Tanno
+
 let id_projeto = -1;
+
+let demanda_proj;
 
 async function carregarDemanda()
 {
@@ -25,7 +29,7 @@ async function carregarDemanda()
         return;
     }
 
-
+    demanda_proj = demanda;
     renderizarDemanda(demanda, projeto_id.id);
     return;
 }
@@ -70,6 +74,51 @@ function renderizarDemanda(demanda, projeto_id)
 
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(demanda.projeto)}">Projetos</a>`;
+
+    ajustarStatusPossiveis(demanda);
+}
+
+function ajustarStatusPossiveis(demanda)
+{
+    const campo_status = document.getElementById("status_id");
+    if(demanda.status==="aberta")
+    {
+        campo_status.innerHTML = `
+            <option value="aberta">Aberta</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="cancelada">Cancelada</option>
+        `;
+    }
+    else if(demanda.status==="em_andamento")
+    {
+        campo_status.innerHTML = `
+            <option value="em_andamento">Em andamento</option>
+            <option value="em_revisao">Em revisão</option>
+            <option value="cancelada">Cancelada</option>
+        `;
+    }
+    else if(demanda.status==="em_revisao")
+    {
+        campo_status.innerHTML = `
+            <option value="em_andamento">Em andamento</option>
+            <option value="em_revisao">Em revisão</option>
+            <option value="concluida">Concluída</option>
+            <option value="cancelada">Cancelada</option>
+        `;
+    }
+    else if(demanda.status==="concluida")
+    {
+        campo_status.innerHTML = `
+            <option value="concluida">Concluída</option>
+        `;
+    }
+    else
+    {
+        campo_status.innerHTML = `
+            <option value="cancelada">Cancelada</option>
+        `;
+    }
+    return;
 }
 
 function formatarDatetime(data)
@@ -121,6 +170,7 @@ async function atualizarDemanda(demanda,responsavel_nome="nenhum")
     {
         return;
     }
+    ajustarStatusPossiveis(resposta);
     return;
 }
 

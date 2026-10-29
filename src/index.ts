@@ -395,7 +395,7 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
     }
 
     const {prioridade,status,responsavel,prazo} = req.body;
-
+    
     if(!prioridade||!status||!prazo)
     {
         return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
@@ -409,6 +409,17 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
     if(status!=="aberta" && status!=="em_andamento" && status!=="em_revisao" && status!=="concluida" && status!=="cancelada")
     {
         return res.status(400).json({mensagem: "Status inválido!"});
+    }
+
+    if(
+        (demanda.status==="aberta" && (status!=="aberta" && status!=="em_andamento" && status!=="cancelada"))||
+        (demanda.status==="em_andamento" && (status!=="em_andamento" && status!=="em_revisao" && status!=="cancelada"))||
+        (demanda.status==="em_revisao" && (status!=="em_andamento" && status!=="em_revisao" && status!=="concluida" && status!=="cancelada"))||
+        (demanda.status==="concluida" && (status!=="concluida"))||
+        (demanda.status==="cancelada" && (status!=="cancelada"))
+    )
+    {
+        return res.status(400).json({mensagem: "Status não segue ciclo de vida de demandas!"});
     }
 
     const hoje = new Date();
@@ -433,6 +444,7 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
     if(antes_prioridade===prioridade && antes_status===status && antes_responsavel===responsavel && antes_prazo===prazo)
     {
         mensagem_alteracao += ` Nenhuma alteração`;
+        return res.status(200).json(demanda);
     }
     else 
     {

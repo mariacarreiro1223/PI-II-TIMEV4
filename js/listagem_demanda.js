@@ -52,6 +52,11 @@ function renderizarDemanda(demandas)
     
     let cont=1;
     demandas.forEach((demanda) => {
+        let link_edicao = `<a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>`;
+        if(demanda.status==="cancelada" || demanda.status==="concluida")
+        {
+            link_edicao = "";
+        }
         tabela.innerHTML+=`
             <li class="demanda-card">
                 <span class="numero">${demanda.id}</span>
@@ -61,7 +66,7 @@ function renderizarDemanda(demandas)
                     Status: ${demanda.status}
                 </p>
                 <a href="detalhes_demandas.html?id=${demanda.id}" class="ver-detalhes">Ver detalhes</a> 
-                <a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>
+                ${link_edicao}
             </li>`;
         cont++;
     });
@@ -91,6 +96,11 @@ form_filtro.addEventListener("submit",function(event) {
     if(filtro.value==="")
     {
         demandas_carregadas.forEach((demanda) => {
+            let link_edicao = `<a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>`;
+            if(demanda.status==="cancelada" || demanda.status==="concluida")
+            {
+                link_edicao = "";
+            }
             tabela.innerHTML+=`
                 <li class="demanda-card">
                     <span class="numero">${demanda.id}</span>
@@ -100,7 +110,7 @@ form_filtro.addEventListener("submit",function(event) {
                         Status: ${demanda.status}
                     </p>
                     <a href="detalhes_demandas.html?id=${demanda.id}" class="ver-detalhes">Ver detalhes</a> 
-                    <a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>
+                    ${link_edicao}
                 </li>`;
             cont++;
         });
@@ -117,6 +127,11 @@ form_filtro.addEventListener("submit",function(event) {
             (tipo_filtro.value === "demanda" && demanda_nome.includes(filtro.value.toLowerCase().trim()))
         )
         {
+            let link_edicao = `<a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>`;
+            if(demanda.status==="cancelada" || demanda.status==="concluida")
+            {
+                link_edicao = "";
+            }
             tabela.innerHTML+=`
                 <li class="demanda-card">
                     <span class="numero">${demanda.id}</span>
@@ -126,7 +141,7 @@ form_filtro.addEventListener("submit",function(event) {
                         Status: ${demanda.status}
                     </p>
                     <a href="detalhes_demandas.html?id=${demanda.id}" class="ver-detalhes">Ver detalhes</a> 
-                    <a href="edicao_demanda.html?id=${demanda.id}" class="ver-detalhes">Editar</a>
+                    ${link_edicao}
                 </li>`;
             cont++;
         }
