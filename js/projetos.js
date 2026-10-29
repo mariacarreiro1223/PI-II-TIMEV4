@@ -1,5 +1,7 @@
 // Isaque Tanno
 
+let projetos_carregados;
+
 async function carregarProjetos()
 {
     
@@ -41,16 +43,17 @@ async function carregarProjetos()
         }
     }
 
-    renderizarProjetos(projetos)
+    projetos_carregados = projetos;
+    renderizarProjetos(projetos);
     return;
 }
 
-function renderizarProjetos(demandas)
+function renderizarProjetos(projetos)
 {
     const tabela = document.getElementById("tabela-projetos");
     tabela.innerHTML="";
 
-    if (!demandas || demandas.length === 0) 
+    if (!projetos || projetos.length === 0) 
     {
         tabela.innerHTML=`
             <tr>
@@ -64,7 +67,7 @@ function renderizarProjetos(demandas)
         return;
     }
     
-    demandas.forEach((projeto_atual) => {
+    projetos.forEach((projeto_atual) => {
         tabela.innerHTML+=`
             <tr>
                 <th scope="row">${projeto_atual.id}</th>
@@ -78,5 +81,79 @@ function renderizarProjetos(demandas)
     });
     return;
 }
+
+const form_filtro = document.getElementById("form-filtro");
+form_filtro.addEventListener("submit",function(event) {
+
+    event.preventDefault();
+
+    const tabela = document.getElementById("tabela-projetos");
+    tabela.innerHTML="";
+    if (!projetos_carregados || projetos_carregados.length === 0) 
+    {
+        tabela.innerHTML=`
+            <tr>
+                <th scope="row"></th>
+                <td class="fw-bold">Nenhum projeto cadastrado</td>
+                <td><span class="badge bg-primary"></span></td>
+                <td</td>
+                <td class="text-center"></td>
+            </tr>
+        `;
+        return;
+    }
+    
+    const filtro = document.getElementById("txtbox_buscar_id");
+    if(filtro.value==="")
+    {
+        projetos_carregados.forEach((projeto_atual) => {
+            tabela.innerHTML+=`
+                <tr>
+                    <th scope="row">${projeto_atual.id}</th>
+                    <td class="fw-bold">${projeto_atual.nome}</td>
+                    <td><span class="badge bg-primary">Em Andamento</span></td>
+                    <td>${projeto_atual.demandas.length}</td>
+                    <td class="text-center">
+                        <a href="dashboard.html?nome=${encodeURIComponent(projeto_atual.nome)}" class="btn btn-sm btn-outline-dark">Abrir Dashboard</a>
+                    </td>
+                </tr>`;
+        });
+        return;
+    }
+    let cont=1;
+    projetos_carregados.forEach((projeto_atual) => {
+        if((projeto_atual.nome.toLowerCase().trim().includes(filtro.value.toLowerCase().trim())))
+        {
+            tabela.innerHTML+=`
+            <tr>
+                <th scope="row">${projeto_atual.id}</th>
+                <td class="fw-bold">${projeto_atual.nome}</td>
+                <td><span class="badge bg-primary">Em Andamento</span></td>
+                <td>${projeto_atual.demandas.length}</td>
+                <td class="text-center">
+                    <a href="dashboard.html?nome=${encodeURIComponent(projeto_atual.nome)}" class="btn btn-sm btn-outline-dark">Abrir Dashboard</a>
+                </td>
+            </tr>`;
+            cont++;
+        }
+        
+    });
+
+    if(cont===1)
+    {
+        tabela.innerHTML=`
+            <tr>
+                <th scope="row"></th>
+                <td class="fw-bold">Nenhum projeto com esse nome encontrado</td>
+                <td><span class="badge bg-primary"></span></td>
+                <td</td>
+                <td class="text-center"></td>
+            </tr>
+        `;
+    }
+    return;
+    
+    
+});
 
 window.addEventListener("DOMContentLoaded", carregarProjetos());

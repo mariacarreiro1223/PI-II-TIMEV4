@@ -798,6 +798,7 @@ textarea.is-invalid {
 #buscar form {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 0;
 }

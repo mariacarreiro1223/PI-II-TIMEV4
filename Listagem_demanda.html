@@ -29,23 +29,18 @@
         </nav>
     </header>
 
-    <div id="buscar">Buscar: 
-        <form>
+    <div id="buscar">Filtrar por: 
+        <form id="form-filtro">
             <input type="text" name="txtbox_buscar" id="txtbox_buscar_id">
-            <input id="botaoBuscar_id" type="submit" value="Buscar">
-        </form>
-    </div>
-
-    <div id="filtro">Filtrar por: 
-        <form>
             <select id="filtro_lista_id" name="filtro_lista">
                 <option value="id">ID</option>
                 <option value="status">Status</option>
                 <option value="prioridade">Prioridade</option>
                 <option value="tipo">Tipo</option>
                 <option value="responsavel">Responsável</option>
-                <option value="projeto">Projeto</option>
+                <option value="demanda">Nome da Demanda</option>
             </select>
+            <input id="botaoBuscar_id" type="submit" value="Buscar">
         </form>
     </div>
 
