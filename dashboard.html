@@ -12,14 +12,13 @@
 
 <body class="pagina-dashboard">
     
-</body>
     <header>
         <nav>
             <div class="logo">Sistema SADD</div>
             <ul class="menu">
-                <li><a href="dashboard.html">Início</a></li>
+                <li id="link-dashboard"><a href="dashboard.html">Início</a></li>
                 <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
-                <li><a href="#">Projetos</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
                 <li><a href="#">Equipe</a></li>
                 <li><a href="login.html">Sair</a></li>
             </ul>
@@ -56,18 +55,24 @@
             <p style="margin-inline: 50px;" id="link-cadastro-demanda"><a href="cadastro_demanda.html" target="_self">Criar Demanda</a></p>
         </div>
 
-        <!-- demandas serão atualizadas de acordo com o banco-->
-        <div id="lista-demandas">
-            <ul>
-                <li id="lista-demandas-link2"><a href="Listagem_demanda.html" target="_self">Lista de Demandas</a></li>
-                <li><a href="detalhes_demandas.html" target="_self">Demanda 1</a><a href="edicao_demanda.html"> - Editar</a></li>
-                <li><a href="detalhes_demandas.html" target="_self">Demanda 2</a><a href="edicao_demanda.html"> - Editar</a></li>
-                <li><a href="detalhes_demandas.html" target="_self">Demanda 3</a><a href="edicao_demanda.html"> - Editar</a></li>
+        <div id="lista-demandas" style="margin-top: 20px;">
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;" id="lista-demandas-link2">
+                    <a href="Listagem_demanda.html" target="_self" style="text-decoration: none; font-weight: bold; color: inherit;">Lista de Demandas</a>
+                </li>
+                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
+                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 1</a>
+                </li>
+                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
+                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 2</a>
+                </li>
+                <li style="border: none; background: transparent; box-shadow: none; padding: 8px 0;">
+                    <a href="detalhes_demandas.html" target="_self" style="text-decoration: none; color: inherit;">Demanda 3</a>
+                </li>
             </ul>
         </div>
     </div>
 
-    <!-- isso tudo será atualizado de acordo com o banco-->
     <div id="informacoes">
         <div class="info-box importante">
             <h1 id="demandas_criticas_abertas">0</h1>
@@ -138,7 +143,7 @@
             <h1 id="demandas_canceladas">0</h1>
             <p>Demandas Canceladas</p>
         </div>
-
     </div>
 
+</body>
 </html>

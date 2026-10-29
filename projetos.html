@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos - Sistema SADD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="../js/api.js"></script>
+</head>
+<body class="pagina-listagem">
+
+    <header>
+        <nav>
+            <div class="logo">Sistema SADD</div>
+            <ul class="menu">
+                <li id="link-dashboard"><a href="dashboard.html">Início</a></li>
+                <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
+                <li><a href="projetos.html">Projetos</a></li>
+                <li><a href="#">Equipe</a></li>
+                <li><a href="login.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="buscar">Buscar Projeto: 
+        <form>
+            <input type="text" name="txtbox_buscar" id="txtbox_buscar_id" placeholder="Nome do projeto...">
+            <input id="botaoBuscar_id" type="submit" value="Buscar">
+        </form>
+    </div>
+
+    <main class="container mt-4">
+        <h1 class="mb-4">Meus Projetos</h1>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle border">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome do Projeto</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Demandas Abertas</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th scope="row">1</th>
+                        <td class="fw-bold">Sistema de Login</td>
+                        <td><span class="badge bg-primary">Em Andamento</span></td>
+                        <td>3</td>
+                        <td class="text-center">
+                            <a href="dashboard.html" class="btn btn-sm btn-outline-dark">Abrir Dashboard</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">2</th>
+                        <td class="fw-bold">Módulo de Pagamentos</td>
+                        <td><span class="badge bg-secondary text-dark">Planejamento</span></td>
+                        <td>12</td>
+                        <td class="text-center">
+                            <a href="dashboard.html" class="btn btn-sm btn-outline-dark">Abrir Dashboard</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="mt-5">
+        <p>Sistema SADD &mdash; Todos os direitos reservados</p>
+    </footer>
+
+</body>
+</html>
