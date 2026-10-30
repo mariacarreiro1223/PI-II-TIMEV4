@@ -13,6 +13,7 @@ const prazo = document.querySelector("#prazo_finalizacao_id");
 
 const prazoErro = document.querySelector("#erro_prazo_finalizacao_id");
 
+const resultadomsg = document.querySelector("#msg-resultado");
 const resultado = document.querySelector("#resultado");
 
 campos = [
@@ -39,7 +40,7 @@ function limparErros() {
 }
 
 
-formulario.addEventListener("submit", function(event) {
+formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
     limparErros();
 
@@ -69,7 +70,6 @@ formulario.addEventListener("submit", function(event) {
     }
 
     if (formValido) {
-        resultado.classList.remove("d-none");
         const nova_demanda =
         {
             prioridade: prioridade.value,
@@ -77,9 +77,22 @@ formulario.addEventListener("submit", function(event) {
             responsavel: resp.value,
             prazo: prazo.value
         };
-        atualizarDemanda(nova_demanda);
+        try
+        {
+            await atualizarDemanda(nova_demanda);
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-danger");
+            resultadomsg.classList.add("alert-sucess");
+            resultadomsg.innerHTML = "Demanda Atualizada";
+        }
+            
+        catch(erro)
+        {
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-sucess");
+            resultadomsg.classList.add("alert-danger");
+            resultadomsg.innerHTML = `${erro.message}`;
+        }
     }
-
-    console.log("Validação: Sucesso");
     return formValido;
 });

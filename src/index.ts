@@ -1,5 +1,6 @@
 import express, {Request, Response} from "express";
 import cors from "cors";
+import 'dotenv/config';
 
 const app = express();
 const PORT = 3000;
@@ -322,7 +323,7 @@ app.get("/demandas/:id",(req: Request, res: Response) => {
     return res.status(200).json(demanda);
 });
 
-app.post("/demandas",(req: Request, res: Response) => {
+app.post("/demandas",async (req: Request, res: Response) => {
     const {titulo,descricao,tipo,prioridade,projeto,responsavel,prazo} = req.body;
 
     if(!titulo||!descricao||!tipo||!prioridade||!prazo)
@@ -364,6 +365,13 @@ app.post("/demandas",(req: Request, res: Response) => {
         return res.status(400).json({mensagem: "O prazo deve ser superior a 10 dias a partir da abertura da demanda!"});
     }
 
+    const resultadoFeriado = (await isFeriado(dataPrazo)).status;
+    if(resultadoFeriado !== false)
+    {
+        
+        return res.status(400).json({mensagem: resultadoFeriado});
+    }
+
     const hoje = new Date();
 
     const novaDemanda : demandaFormato =
@@ -385,7 +393,7 @@ app.post("/demandas",(req: Request, res: Response) => {
     return res.status(201).json(novaDemanda);
 });
 
-app.put("/demandas/:id",(req: Request, res: Response) => {
+app.put("/demandas/:id",async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const demanda = demandas.find((item) => item.id === id);
 
@@ -433,6 +441,15 @@ app.put("/demandas/:id",(req: Request, res: Response) => {
     const antes_status = demanda.status;
     const antes_responsavel = demanda.responsavel;
     const antes_prazo = demanda.prazo;
+
+    if(antes_prazo !== prazo)
+    {
+        const resultadoFeriado = (await isFeriado(dataPrazo)).status;
+        if(resultadoFeriado !== false)
+        {
+            return res.status(400).json({mensagem: resultadoFeriado});
+        }
+    }
 
     demanda.prioridade = prioridade;
     demanda.status = status;
@@ -838,3 +855,53 @@ app.get("/projetonome/:id", (req: Request, res: Response) => {
     }
     return res.status(200).json({nome: projeto.nome});
 });
+
+
+const apiKey = process.env.API_FERIADOS_KEY;
+
+const API_BASE_URL = "https://feriadosapi.com/api/v1/";
+
+async function isFeriado(data: Date)
+{
+    let url = `${API_BASE_URL}feriados/nacionais`;
+    if(!data)
+    {
+        url += `x`;
+        return {status:"Nenhuma data especificada"};
+    }
+    url += `?ano=${data.getFullYear()}`;
+
+    const resposta = await fetch(url, 
+        {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`
+            }
+        }
+    );
+    if(!resposta.ok)
+    {
+        console.error(`[Feriados API Erro]: Status ${resposta.status} - ${resposta.statusText}`);
+        return {status:"Erro servidor API"};
+    }
+    const dados = await resposta.json();
+    const feriados = dados.feriados;
+
+    const diaBusca = String(data.getDate()).padStart(2, '0');
+    const mesBusca = String(data.getMonth() + 1).padStart(2, '0'); // Meses no JS vão de 0 a 11
+    const anoBusca = data.getFullYear();
+    const dataAtual = `${diaBusca}/${mesBusca}/${anoBusca}`;
+
+    let isferiado = false;
+    feriados.forEach((feriado: any) => {
+        const data_feriado = feriado.data;
+        if(data_feriado === dataAtual)
+        {
+            isferiado = true;
+        }
+    });
+    if(isferiado!==false)
+    {
+        return {status:"Data inserida é feriado!"};
+    }
+    return {status:isferiado};
+}

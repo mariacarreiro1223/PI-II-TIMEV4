@@ -17,6 +17,7 @@ const erro_prioridade = document.querySelector("#erro_prioridade_id");
 const erro_projeto = document.querySelector("#erro_projeto_associado_id");
 const erro_prazo = document.querySelector("#erro_prazo_finalizacao_id");
 
+const resultadomsg = document.querySelector("#msg-resultado");
 const resultado = document.querySelector("#resultado");
 
 
@@ -123,9 +124,23 @@ formulario.addEventListener("submit",async function(event) {
     
 
     if (formValido){
-        resultado.classList.remove("d-none");
-        await cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
-        formulario.reset();
+        try
+        {
+            const dados = await cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-danger");
+            resultadomsg.classList.add("alert-sucess");
+            resultadomsg.innerHTML = "Demanda Cadastrada";
+            formulario.reset();
+        }
+        catch(erro)
+        {
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-sucess");
+            resultadomsg.classList.add("alert-danger");
+            resultadomsg.innerHTML = `${erro.message}`;
+        }
+        
     }
     else {
         resultado.classList.add("d-none");

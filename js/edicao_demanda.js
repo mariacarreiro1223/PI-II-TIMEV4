@@ -171,7 +171,7 @@ async function atualizarDemanda(demanda,responsavel_nome="nenhum")
         return;
     }
     ajustarStatusPossiveis(resposta);
-    return;
+    return resposta;
 }
 
 window.addEventListener("DOMContentLoaded", carregarDemanda());

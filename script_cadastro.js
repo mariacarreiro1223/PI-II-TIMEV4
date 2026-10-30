@@ -206,24 +206,22 @@ formulario.addEventListener("submit",async function (event) {
     }
 
     if (formValido){
-        const cadastro={nome:nome,cpf:cpf,telefone:telefone,dataNasc:dataNascimento,email:email,senha:senha};
         try
         {
+            const cadastro={nome:nome,cpf:cpf,telefone:telefone,dataNasc:dataNascimento,email:email,senha:senha};
             dados = await POSTcadastro(cadastro);
-            if(dados)
-            {
-                resultado.classList.remove("d-none");
-                resultadomsg.classList.remove("alert-danger");
-                resultadomsg.classList.add("alert-sucess");
-                resultadomsg.innerHTML = "Usuário Cadastrado";
-            }
+
+            resultado.classList.remove("d-none");
+            resultadomsg.classList.remove("alert-danger");
+            resultadomsg.classList.add("alert-sucess");
+            resultadomsg.innerHTML = "Usuário Cadastrado";
         }
-        catch
+        catch (erro)
         {
             resultado.classList.remove("d-none");
             resultadomsg.classList.remove("alert-sucess");
             resultadomsg.classList.add("alert-danger");
-            resultadomsg.innerHTML = "Dados inválidos";
+            resultadomsg.innerHTML = `${erro.message}`;
         }
     } 
     else {
