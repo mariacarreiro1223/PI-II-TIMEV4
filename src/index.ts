@@ -216,6 +216,7 @@ async function registrarHistorico(
     );
 }
 
+/*
 async function buscarIdAutorHistorico(idInformado: unknown, idResponsavel: number | null): Promise<number | null> {
     // Enquanto não houver middleware de sessão, as rotas aceitam idUsuario enviado pelo cliente.
     // Para manter compatibilidade com chamadas antigas, usa o responsável como fallback quando existe.
@@ -229,6 +230,7 @@ async function buscarIdAutorHistorico(idInformado: unknown, idResponsavel: numbe
     );
     return linhas.length ? Number(linhas[0].id_usuario) : null;
 }
+*/
 
 //ROTA: GET "/usuarios" — lista usuários ativos; permite filtrar por email e/ou CPF
 // app.get("/usuarios",(req: Request, res: Response) => {
@@ -778,6 +780,13 @@ app.get("/demandas/:id", async (req: Request, res: Response) => {
 //     return res.status(201).json(novaDemanda);
 // });
 app.post("/demandas", async (req: Request, res: Response) => {
+    if(!req.session.usuario){
+        return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+        //req.session.usuario.id_usuario;
+        //req.session.usuario.nome;
+        //req.session.usuario.perfil;
+    }
+
     const {titulo,descricao,tipo,prioridade,projeto,responsavel,prazo} = req.body;
  
     // Valida os tipos antes de chamar trim/length para evitar erro com JSON malformado.
@@ -864,7 +873,7 @@ app.post("/demandas", async (req: Request, res: Response) => {
             });
         }
 
-        const idAutor = usuariosAtivos[0].id_usuario;
+        const idAutor = req.session.usuario.id_usuario;
  
         // INSERT = grava uma linha nova. Status e datas o próprio banco preenche (DEFAULT).
         // "resultado.insertId" é o id que o MySQL gerou (AUTO_INCREMENT).
@@ -967,6 +976,13 @@ app.post("/demandas", async (req: Request, res: Response) => {
 //     return res.status(200).json(demanda);
 // });
 app.put("/demandas/:id", async (req: Request, res: Response) => {
+    if(!req.session.usuario){
+        return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+        //req.session.usuario.id_usuario;
+        //req.session.usuario.nome;
+        //req.session.usuario.perfil;
+    }
+    
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) return res.status(400).json({mensagem: "ID inválido!"});
  
@@ -979,7 +995,7 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             return res.status(404).json({mensagem: "Demanda não encontrada!"});
         }
  
-        const {prioridade,status,responsavel,prazo,idUsuario} = req.body;
+        const {prioridade,status,responsavel,prazo} = req.body;
  
         if(typeof prioridade !== "string" || typeof status !== "string" || typeof prazo !== "string" || !prioridade || !status || !prazo)
         {
@@ -1023,7 +1039,7 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             return res.status(400).json({mensagem: "Responsável não encontrado!"});
         }
         const novoResponsavel = responsavel || "nenhum";
-        const idAutor = await buscarIdAutorHistorico(idUsuario, idResponsavel);
+        const idAutor = req.session.usuario.id_usuario;
         if (idAutor === null) {
             return res.status(400).json({mensagem: "Informe idUsuario válido (usuário ativo que está realizando a alteração) para registrar o histórico."});
         }
@@ -1203,6 +1219,9 @@ app.post("/demandas/:id/comentarios", async (req: Request, res: Response) => {
 
      if(!req.session.usuario){
         return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+        //req.session.usuario.id_usuario;
+        //req.session.usuario.nome;
+        //req.session.usuario.perfil;
     }
 
     const id = Number(req.params.id);

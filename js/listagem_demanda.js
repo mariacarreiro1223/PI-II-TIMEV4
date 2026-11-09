@@ -120,10 +120,10 @@ form_filtro.addEventListener("submit",function(event) {
         const demanda_nome = (demanda.titulo).toLowerCase().trim();
         if(
             (tipo_filtro.value === "id" && demanda.id === Number(filtro.value)) ||
-            (tipo_filtro.value === "status" && demanda.status === filtro.value.trim()) ||
-            (tipo_filtro.value === "prioridade" && demanda.prioridade === filtro.value.trim()) ||
-            (tipo_filtro.value === "tipo" && demanda.tipo === filtro.value.trim()) ||
-            (tipo_filtro.value === "responsavel" && demanda.responsavel === filtro.value.trim()) ||
+            (tipo_filtro.value === "status" && demanda.status.includes(filtro.value.toLowerCase().trim())) ||
+            (tipo_filtro.value === "prioridade" && demanda.prioridade.includes(filtro.value.toLowerCase().trim())) ||
+            (tipo_filtro.value === "tipo" && demanda.tipo.includes(filtro.value.toLowerCase().trim())) ||
+            (tipo_filtro.value === "responsavel" && demanda.responsavel.includes(filtro.value.toLowerCase().trim())) ||
             (tipo_filtro.value === "demanda" && demanda_nome.includes(filtro.value.toLowerCase().trim()))
         )
         {
