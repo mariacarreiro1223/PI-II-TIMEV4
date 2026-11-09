@@ -46,6 +46,7 @@ npm install
     DB_PASSWORD=sua_senha
     DB_NAME=gerencia_demandas
     API_FERIADOS_KEY=sua_chave_aqui
+    SESSION_SECRET=chave_de_sessao_backend_aqui
 
     Substitua seu_usuario e sua_senha pelas credenciais do seu MySQL. A chave da API de feriados deve ser obtida em FeriadosAPI.
 

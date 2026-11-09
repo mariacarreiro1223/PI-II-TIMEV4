@@ -3,6 +3,7 @@
 
 import express, {Request, Response} from "express";
 import cors from "cors";
+import session from "express-session";
 
 import 'dotenv/config';
 import { pool } from "./bd";
@@ -11,8 +12,37 @@ const app = express();
 const PORT = 3000;
 
 // Middlewares precisam ser registrados antes das rotas.
-app.use(cors());
+//app.use(cors());  - nao funciona mais ao usar cookies e sessao http
+app.use(cors({
+    origin: "http://127.0.0.1:5500",
+    credentials: true
+}))
 app.use(express.json());
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "123secret",
+    resave: false,
+    saveUninitialized: false,
+
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 1000 * 60 * 60
+    }
+}));
+
+import "express-session";
+
+declare module "express-session" {
+    interface SessionData {
+        usuario?: {
+            id_usuario: number;
+            nome: string;
+            perfil: string;
+        };
+    }
+}
 
 app.get("/", (req: Request, res: Response) => {
     return res.status(200).send("Sistema SADD");
@@ -293,6 +323,21 @@ app.get("/usuarios", async (req: Request, res: Response) => {
 
 //     return res.status(200).json({ mensagem: "Login OK" });
 // });
+app.get("/verificarsessao", (req: Request, res: Response) => {
+
+    if(!req.session.usuario){
+        return res.status(401).json({
+            autenticado: false
+        });
+    }
+
+    return res.status(200).json({
+        autenticado: true,
+        usuario: req.session.usuario
+    });
+
+});
+
 app.post("/login", async(req: Request, res: Response) => {
    try{ 
         const {email,senha} = req.body;
@@ -316,21 +361,62 @@ app.post("/login", async(req: Request, res: Response) => {
             return res.status(401).json({mensagem: "Usuário ou senha inválidos!"});
         }
 
-        return res.status(200).json({
-            mensagem: "Login OK",
-            usuario: {
-                id: usuario.id_usuario,
-                nome: usuario.nome,
-                email: usuario.email,
-                perfil: usuario.perfil
+        req.session.regenerate((erro) => {
+
+            if(erro){
+                return res.status(500).json({mensagem: "Erro ao criar sessão."});
             }
+
+            req.session.usuario = {
+                id_usuario: usuario.id_usuario,
+                nome: usuario.nome,
+                perfil: usuario.perfil
+            };
+
+            req.session.save((erro) => {
+
+                if(erro){
+                    return res.status(500).json({mensagem: "Erro ao salvar sessão."});
+                }
+
+                return res.status(200).json({
+                    mensagem: "Login OK",
+                    usuario: {
+                        id: usuario.id_usuario,
+                        nome: usuario.nome,
+                        email: usuario.email,
+                        perfil: usuario.perfil
+                    }
+                });
+
+            });
+            return;
+
         });
+
+        return;
 
     }catch (erro){
         console.error("Erro ao realizar login:", erro);
 
         return res.status(500).json({mensagem: "Erro interno ao realizar login."});
     }
+});
+
+app.post("/logout", (req: Request, res: Response) => {
+
+    req.session.destroy((erro) => {
+
+        if(erro){
+            return res.status(500).json({mensagem: "Erro ao encerrar sessão"});
+        }
+
+        res.clearCookie("connect.sid");
+
+        return res.status(200).json({mensagem: "Logout realizado"});
+
+    });
+
 });
 
 //ROTA: POST "/cadastro" — valida os dados e cadastra um novo usuário no banco.
@@ -905,7 +991,7 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             return res.status(400).json({mensagem: "Prioridade inválida!"});
         }
  
-        if(!STATUS[status])
+        if(!STATUS[status] || status === "Cancelado")
         {
             return res.status(400).json({mensagem: "Status inválido!"});
         }
@@ -920,6 +1006,16 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
         if(dataPrazo < hoje)
         {
             return res.status(400).json({mensagem: "Prazo não pode ser anterior a hoje!"});
+        }
+        const antes_prazo = demanda.prazo;
+
+        if(antes_prazo !== prazo)
+        {
+            const resultadoFeriado = (await isFeriado(dataPrazo)).status;
+            if(resultadoFeriado !== false)
+            {
+                return res.status(400).json({mensagem: resultadoFeriado});
+            }
         }
  
         const idResponsavel = await buscarIdUsuarioPorNome(responsavel);
@@ -1104,8 +1200,15 @@ app.get("/demandas/:id/comentarios/:idComentario", async (req: Request, res: Res
 //     return res.status(201).json(novoComentario);
 // });
 app.post("/demandas/:id/comentarios", async (req: Request, res: Response) => {
+
+     if(!req.session.usuario){
+        return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+    }
+
     const id = Number(req.params.id);
-    const {autor,texto} = req.body;
+    const {texto} = req.body;
+    const autor = req.session.usuario.nome;
+
  
     if(typeof autor !== "string" || typeof texto !== "string" || !autor.trim() || !texto.trim())
     {
@@ -1130,7 +1233,7 @@ app.post("/demandas/:id/comentarios", async (req: Request, res: Response) => {
         }
  
         // A tabela comentarios exige um usuário que EXISTA (chave estrangeira)
-        const idUsuario = await buscarIdUsuarioPorNome(autor);
+        const idUsuario = req.session.usuario.id_usuario;
         if (idUsuario === null) {
             return res.status(400).json({mensagem: "Autor do comentário não encontrado!"});
         }

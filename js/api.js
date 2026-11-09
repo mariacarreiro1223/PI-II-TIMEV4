@@ -1,6 +1,6 @@
 // Isaque Tanno
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "http://127.0.0.1:3000";
 
 async function tratarRespostaApi(resposta){
   const dados = await resposta.json();
@@ -31,7 +31,7 @@ async function GETusuarios(email="",cpf="")
     {
         url += `?cpf=${encodeURIComponent(cpf)}`;
     }
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -44,7 +44,7 @@ async function GETdemandasProjeto(projeto_id)
     }
     url += `${encodeURIComponent(projeto_id)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -57,7 +57,7 @@ async function GETdemanda(demanda_id)
     }
     url += `${encodeURIComponent(demanda_id)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -70,7 +70,7 @@ async function GETcomentarios(demanda_id)
     }
     url += `${encodeURIComponent(demanda_id)}/comentarios`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -83,7 +83,7 @@ async function GETdashboard(projeto_nome)
     }
     url += `${encodeURIComponent(projeto_nome)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -96,7 +96,7 @@ async function GEThistorico(demanda_id)
     }
     url += `${encodeURIComponent(demanda_id)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -109,7 +109,7 @@ async function GETidprojeto(nome_projeto)
     }
     url += `${encodeURIComponent(nome_projeto)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -122,7 +122,7 @@ async function GETnomeprojeto(id_projeto)
     }
     url += `${encodeURIComponent(id_projeto)}`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
 }
 
@@ -140,6 +140,7 @@ async function POSTdemanda(demanda)
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(demanda)
         }
     );
@@ -162,6 +163,7 @@ async function PUTdemanda(demanda, id)
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(demanda)
         }
     );
@@ -184,6 +186,7 @@ async function POSTcomentario(comentario, id)
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(comentario)
         }
     );
@@ -203,9 +206,30 @@ async function POSTlogin(login)
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(login)
         }
     );
+
+    if(resposta.ok)
+    {
+        window.location.href = "projetos.html";
+    }
+    return await tratarRespostaApi(resposta);
+}
+
+async function POSTlogout()
+{
+    const resposta = await fetch(`${API_BASE_URL}/logout`, {
+        method: "POST",
+        credentials: "include"
+    });
+
+    if(resposta.ok)
+    {
+        window.location.href = "login.html";
+    }
+
     return await tratarRespostaApi(resposta);
 }
 
@@ -239,6 +263,27 @@ async function GETprojetos(id_projeto)
     url += `${encodeURIComponent(id_projeto)}`;
     */
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(url,{credentials: "include"});
     return await tratarRespostaApi(resposta);
+}
+
+async function GETverificarsessao()
+{
+    const resposta = await fetch(`${API_BASE_URL}/verificarsessao`, {
+        method: "GET",
+        credentials: "include"
+    });
+
+    if(!resposta.ok)
+    {
+        //window.location.href = "login.html";
+        return null;
+    }
+
+    const dados = await resposta.json();
+
+    //console.log(dados.usuario.nome);
+    //console.log(dados.usuario.id_usuario);
+    //console.log(dados.usuario.perfil);
+    return dados.usuario;
 }
