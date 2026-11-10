@@ -18,10 +18,10 @@ async function carregarProjetos()
 
     const link_dashboard = document.getElementById("link-dashboard");
     const link_demandas = document.getElementById("link-demandas");
+    const link_perfil = document.getElementById("link-perfil");
     if (nome) 
     {   
         link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(nome)}">Início</a>`;
-        const link_perfil = document.getElementById("link-perfil");
         link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(nome)}">Perfil</a>`;
         const projeto_id = await GETidprojeto(nome);
         if(!projeto_id)
@@ -37,11 +37,13 @@ async function carregarProjetos()
         {
             link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(projetos[0].nome)}">Início</a>`;
             link_demandas.innerHTML = `<a href="Listagem_demanda.html?id=${projetos[0].id}">Demandas</a>`;
+            link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(projetos[0].nome)}">Perfil</a>`;
         }
         else
         {
-            link_dashboard.innerHTML = `<a href="#">Início</a>`;
-            link_demandas.innerHTML = `<a href="#">Demandas</a>`;
+            link_dashboard.innerHTML = ``;
+            link_demandas.innerHTML = ``;
+            link_perfil.innerHTML = `<a href="perfil.html">Perfil</a>`;
         }
     }
 
