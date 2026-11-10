@@ -786,6 +786,10 @@ app.post("/demandas", async (req: Request, res: Response) => {
         //req.session.usuario.nome;
         //req.session.usuario.perfil;
     }
+    if(req.session.usuario.perfil === 'Membro da Equipe')
+    {
+        return res.status(500).json({mensagem: "Membro da Equipe não cria demandas!"});
+    }
 
     const {titulo,descricao,tipo,prioridade,projeto,responsavel,prazo} = req.body;
  
@@ -1007,9 +1011,21 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             return res.status(400).json({mensagem: "Prioridade inválida!"});
         }
  
-        if(!STATUS[status] || status === "Cancelado")
+        if(!STATUS[status])
         {
             return res.status(400).json({mensagem: "Status inválido!"});
+        }
+
+        if(req.session.usuario.perfil==='Membro da Equipe')
+        {
+            if(status==='cancelada'|| status==='concluida')
+                return res.status(500).json({mensagem: "Membro da Equipe não pode concluir ou cancelar demanda!"});
+            if(demanda.prioridade!==prioridade)
+                return res.status(500).json({mensagem: "Membro da Equipe não pode alterar prioridade!"});
+            if(demanda.responsavel!==responsavel)
+                return res.status(500).json({mensagem: "Membro da Equipe não pode alterar responsável!"});
+            if(demanda.prazo!==prazo)
+                return res.status(500).json({mensagem: "Membro da Equipe não pode alterar prazo!"});
         }
  
         if(!/^\d{4}-\d{2}-\d{2}$/.test(prazo) || Number.isNaN(new Date(`${prazo}T00:00:00`).getTime()) || new Date(`${prazo}T00:00:00`).toISOString().slice(0, 10) !== prazo)
@@ -1052,21 +1068,29 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
  
         // Compara "antes" com "depois" e grava uma linha de histórico para cada campo que mudou.
         // Provisório: quem fez a alteração é o responsável informado (ainda não existe sessão de login).
+        let editado = 0;
         if (demanda.prioridade !== prioridade) {
             await registrarHistorico(id, idAutor, "prioridade", PRIORIDADES[demanda.prioridade], PRIORIDADES[prioridade]);
+            editado++;
         }
         if (demanda.status !== status) {
             // Cancelar fica registrado com nome próprio, como pede o escopo
             const campo = status === "cancelada" ? "cancelamento" : "status";
             await registrarHistorico(id, idAutor, campo, STATUS[demanda.status], STATUS[status]);
+            editado++;
         }
         if (demanda.responsavel !== novoResponsavel) {
             await registrarHistorico(id, idAutor, "responsável", demanda.responsavel, novoResponsavel);
+            editado++;
         }
         if (demanda.prazo !== prazo) {
             await registrarHistorico(id, idAutor, "prazo", demanda.prazo, prazo);
+            editado++;
         }
- 
+        if(editado===0)
+        {
+            return res.status(500).json({mensagem: "Nenhum campo alterado!"});
+        }
         const atualizadas = await buscarDemandas("WHERE d.id_demanda = ?", [id]);
         return res.status(200).json(atualizadas[0]);
     } catch (erro) {
@@ -1310,10 +1334,38 @@ app.post("/demandas/:id/comentarios", async (req: Request, res: Response) => {
 // });
 app.get("/projetos", async (req: Request, res: Response) => {
     try {
-        const [projetosBanco]: any = await pool.query(
+
+        if(!req.session.usuario){
+            return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+            //req.session.usuario.id_usuario;
+            //req.session.usuario.nome;
+            //req.session.usuario.perfil;
+        }
+
+        const idUsuario = req.session.usuario.id_usuario;
+        let [projetosBanco]: any = [];
+        if(req.session.usuario.perfil!=="Administrador")
+        {
+            [projetosBanco] = await pool.query(
+                
+                `SELECT p.id_projeto AS id, p.nome, p.descricao
+                FROM projetos p
+                INNER JOIN projeto_usuarios proj_u
+                    ON p.id_projeto = proj_u.id_projeto
+                WHERE p.ativo = TRUE
+                AND proj_u.id_usuario = ?
+                ORDER BY p.id_projeto`,[idUsuario]
+            );
+        }
+        else
+        {
             //pede ao banco somente os projetos ativos
-            "SELECT id_projeto AS id, nome, descricao FROM projetos WHERE ativo = TRUE ORDER BY id_projeto"
-        );
+            [projetosBanco]= await pool.query(
+                //pede ao banco somente os projetos ativos
+                "SELECT id_projeto AS id, nome, descricao FROM projetos WHERE ativo = TRUE ORDER BY id_projeto"
+            );
+        }
+        
 
         //percorre cada projeto e monta um obj no formato
         const projetosExibidos = await Promise.all(projetosBanco.map(async (projeto: any) => ({
