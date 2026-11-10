@@ -10,6 +10,7 @@ async function carregarInfo()
     if (!perfil) 
     {   
         console.log("erro, sessao nao ativa");
+        window.location.href = "login.html";
         return;
     }
 

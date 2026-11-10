@@ -4,6 +4,14 @@ let demandas_carregadas;
 
 async function carregarProjeto()
 {
+    const perfil = await GETverificarsessao();
+    if (!perfil) 
+    {   
+        console.log("erro, sessao nao ativa");
+        window.location.href = "login.html";
+        return;
+    }
+    
     const parametros = new URLSearchParams(window.location.search);
     const id = parametros.get("id");
 

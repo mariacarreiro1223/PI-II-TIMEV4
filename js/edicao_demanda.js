@@ -10,6 +10,7 @@ async function carregarDemanda()
     if (!perfil) 
     {   
         console.log("erro, sessao nao ativa");
+        window.location.href = "login.html";
         return;
     }
     const parametros = new URLSearchParams(window.location.search);
@@ -48,11 +49,17 @@ async function carregarDemanda()
         select_responsavel.innerHTML+=`<option value="${usuario.id_usuario}">${usuario.nome}</option>`;
     })
     demanda_proj = demanda;
-    renderizarDemanda(demanda, projeto_id.id);
+
+    let ismembro=false;
+    if(perfil.perfil === "Membro da Equipe")
+    {
+        ismembro=true;
+    }
+    renderizarDemanda(demanda, projeto_id.id,ismembro);
     return;
 }
 
-function renderizarDemanda(demanda, projeto_id)
+function renderizarDemanda(demanda, projeto_id, ismembro=false)
 {
     if(!demanda)
     {
@@ -103,10 +110,28 @@ function renderizarDemanda(demanda, projeto_id)
     const link_perfil = document.getElementById("link-perfil");
     link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(demanda.projeto)}">Perfil</a>`;
 
-    ajustarStatusPossiveis(demanda);
+    if(ismembro===true)
+    {
+        responsavel.setAttribute("readonly",true);
+        prazo.setAttribute("readonly",true);
+        Array.from(prioridade.options).forEach(opcao => {
+            if (opcao.value !== demanda.prioridade) 
+            {
+                opcao.disabled = true;
+            }
+        });
+        Array.from(responsavel.options).forEach(opcao => {
+            if (opcao.value !== demanda.prioridade) 
+            {
+                opcao.disabled = true;
+            }
+        });
+    }
+
+    ajustarStatusPossiveis(demanda, ismembro);
 }
 
-function ajustarStatusPossiveis(demanda)
+function ajustarStatusPossiveis(demanda, ismembro=false )
 {
     const campo_status = document.getElementById("status_id");
     if(demanda.status==="aberta")
@@ -114,25 +139,35 @@ function ajustarStatusPossiveis(demanda)
         campo_status.innerHTML = `
             <option value="aberta">Aberta</option>
             <option value="em_andamento">Em andamento</option>
-            <option value="cancelada">Cancelada</option>
         `;
+        if(ismembro===false)
+        {
+            campo_status.innerHTML+=`<option value="cancelada">Cancelada</option>`;
+        }
     }
     else if(demanda.status==="em_andamento")
     {
         campo_status.innerHTML = `
             <option value="em_andamento">Em andamento</option>
             <option value="em_revisao">Em revisão</option>
-            <option value="cancelada">Cancelada</option>
         `;
+        if(ismembro===false)
+        {
+            campo_status.innerHTML+=`<option value="cancelada">Cancelada</option>`;
+        }
     }
     else if(demanda.status==="em_revisao")
     {
         campo_status.innerHTML = `
             <option value="em_andamento">Em andamento</option>
             <option value="em_revisao">Em revisão</option>
-            <option value="concluida">Concluída</option>
-            <option value="cancelada">Cancelada</option>
         `;
+        if(ismembro===false)
+        {
+            campo_status.innerHTML+=`
+            <option value="concluida">Concluída</option>
+            <option value="cancelada">Cancelada</option>`;
+        }
     }
     else if(demanda.status==="concluida")
     {

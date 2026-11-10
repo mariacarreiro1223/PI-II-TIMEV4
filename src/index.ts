@@ -676,6 +676,13 @@ async function buscarDemandasDoProjeto(idProjeto: number): Promise<demandaFormat
 //     return res.status(200).json(demandasExibidas);
 // });
 app.get("/demandas", async (req: Request, res: Response) => {
+    if(!req.session.usuario){
+        return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+        //req.session.usuario.id_usuario;
+        //req.session.usuario.nome;
+        //req.session.usuario.perfil;
+    }
+
     const status = req.query.status;
     const prioridade = req.query.prioridade;
     const tipo = req.query.tipo;
@@ -684,6 +691,10 @@ app.get("/demandas", async (req: Request, res: Response) => {
         // Cada filtro que veio na URL vira uma condição do WHERE
         const condicoes: string[] = [];
         const parametros: any[] = [];
+        if (req.session.usuario.perfil === "Membro da Equipe") {
+            condicoes.push("d.id_responsavel = ?");
+            parametros.push(req.session.usuario.id_usuario);
+        }
  
         if (status) {
             condicoes.push("d.status = ?");
@@ -1039,10 +1050,13 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
                 return res.status(500).json({mensagem: "Membro da Equipe não pode concluir ou cancelar demanda!"});
             if(demanda.prioridade!==prioridade)
                 return res.status(500).json({mensagem: "Membro da Equipe não pode alterar prioridade!"});
-            if(demanda.responsavel!==responsavel)
+            if ((responsavel === "nenhum" && demanda.id_responsavel !== null)||
+                (responsavel !== "nenhum" && Number(demanda.id_responsavel) !== Number(responsavel)))
                 return res.status(500).json({mensagem: "Membro da Equipe não pode alterar responsável!"});
             if(demanda.prazo!==prazo)
                 return res.status(500).json({mensagem: "Membro da Equipe não pode alterar prazo!"});
+            if(demanda.responsavel==="nenhum")
+                return res.status(500).json({mensagem: "Membro da Equipe não pode alterar dados de demandas não atribuídas a ele!"});
         }
  
         if(!/^\d{4}-\d{2}-\d{2}$/.test(prazo) || Number.isNaN(new Date(`${prazo}T00:00:00`).getTime()) || new Date(`${prazo}T00:00:00`).toISOString().slice(0, 10) !== prazo)
@@ -1467,6 +1481,13 @@ app.get("/projetos/:id", async (req: Request, res: Response) => {
 //     return res.status(200).json(demandas);
 // });
 app.get("/projetos/demandas/:id", async (req: Request, res: Response) => {
+    if(!req.session.usuario){
+        return res.status(401).json({mensagem: "Sessão de Login Inválida!"});
+        //req.session.usuario.id_usuario;
+        //req.session.usuario.nome;
+        //req.session.usuario.perfil;
+    }
+
     const id = Number(req.params.id);
  
     try {
@@ -1478,7 +1499,17 @@ app.get("/projetos/demandas/:id", async (req: Request, res: Response) => {
         {
             return res.status(404).json({mensagem: "Projeto não encontrado!"});
         }
-        const demandasDoProjeto = await buscarDemandasDoProjeto(Number(linhas[0].id_projeto));
+        let demandasDoProjeto;
+
+        if (req.session.usuario.perfil === "Membro da Equipe") 
+        {
+            demandasDoProjeto = await buscarDemandas(`WHERE d.id_projeto = ? AND (d.id_responsavel = ? OR d.id_responsavel IS NULL)`,
+                [id, req.session.usuario.id_usuario]);
+        }
+        else 
+        {
+            demandasDoProjeto = await buscarDemandasDoProjeto(Number(linhas[0].id_projeto));
+        }
         return res.status(200).json(demandasDoProjeto);
     } catch (erro) {
         console.log(erro);

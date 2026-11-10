@@ -2,6 +2,18 @@
 
 async function carregarDashboard()
 {
+    const perfil = await GETverificarsessao();
+    if (!perfil) 
+    {   
+        console.log("erro, sessao nao ativa");
+        window.location.href = "login.html";
+        return;
+    }
+    if(perfil.perfil === "Membro da Equipe")
+    {
+        document.getElementById("link-cadastro-demanda").setAttribute("hidden",true);
+    }
+
     const parametros = new URLSearchParams(window.location.search);
     const nome = parametros.get("nome");
 
