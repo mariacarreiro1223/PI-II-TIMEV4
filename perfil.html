@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Sistema SADD</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="../js/api.js"></script>
+    <script defer src="../js/perfil.js"></script>
 </head>
 <body class="pagina-detalhes">
 
@@ -12,10 +14,10 @@
         <nav>
             <div class="logo">Sistema SADD</div>
             <ul class="menu">
-                <li><a href="dashboard.html">Início</a></li>
-                <li><a href="Listagem_demanda.html">Demandas</a></li>
-                <li><a href="projetos.html">Projetos</a></li>
-                <li><a href="perfil.html">Perfil</a></li>
+                <li id="link-dashboard"><a href="dashboard.html">Início</a></li>
+                <li id="link-demandas"><a href="Listagem_demanda.html">Demandas</a></li>
+                <li id="link-projeto"><a href="projetos.html">Projetos</a></li>
+                <li><a href="#">Perfil</a></li>
                 <li><a href="#" onclick="POSTlogout();">Sair</a></li>
             </ul>
         </nav>
@@ -24,8 +26,8 @@
     <main>
         <section class="titulo-descricao">
             <h1>Meu Perfil</h1>
-            <p><strong>Nome:</strong> Usuário de Teste</p>
-            <p><strong>E-mail:</strong> usuario@teste.com</p>
+            <p id="nome-perfil"><strong>Nome: </strong> Carregando</p>
+            <p id="perfil-perfil"><strong>Perfil: </strong> Carregando</p>
         </section>
 
         

@@ -25,6 +25,9 @@ async function carregarInfo()
 
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(nome_projeto.nome)}">Projetos</a>`;
+
+    const link_perfil = document.getElementById("link-perfil");
+    link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(nome_projeto.nome)}">Perfil</a>`;
 }
 
 async function cadastrarDemanda(demanda,responsavel_nome="nenhum")

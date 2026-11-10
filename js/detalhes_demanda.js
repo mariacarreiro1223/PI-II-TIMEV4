@@ -87,6 +87,9 @@ function renderizarDemanda(demanda, projeto_id)
 
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(demanda.projeto)}">Projetos</a>`;
+
+    const link_perfil = document.getElementById("link-perfil");
+    link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(demanda.projeto)}">Perfil</a>`;
 }
 
 function formatarDatetime(data)

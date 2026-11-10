@@ -30,6 +30,9 @@ async function carregarProjeto()
 
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(projeto_nome.nome)}">Projetos</a>`;
+
+    const link_perfil = document.getElementById("link-perfil");
+    link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(projeto_nome.nome)}">Perfil</a>`;
     renderizarDemanda(demandas);
     demandas_carregadas = demandas;
     return;

@@ -80,6 +80,9 @@ function renderizarDashboard(dados,nome)
     const link_projeto = document.getElementById("link-projeto");
     link_projeto.innerHTML = `<a href="projetos.html?nome=${encodeURIComponent(nome)}">Projetos</a>`;
 
+    const link_perfil = document.getElementById("link-perfil");
+    link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(nome)}">Perfil</a>`;
+
     const tabela_critica = document.getElementById("tabela-critica-demandas");
     tabela_critica.innerHTML="";
     const tabela_proxima = document.getElementById("tabela-proxima-demandas");

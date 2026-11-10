@@ -21,6 +21,8 @@ async function carregarProjetos()
     if (nome) 
     {   
         link_dashboard.innerHTML = `<a href="dashboard.html?nome=${encodeURIComponent(nome)}">Início</a>`;
+        const link_perfil = document.getElementById("link-perfil");
+        link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(nome)}">Perfil</a>`;
         const projeto_id = await GETidprojeto(nome);
         if(!projeto_id)
         {
