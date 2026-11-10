@@ -6,6 +6,12 @@ let demanda_proj;
 
 async function carregarDemanda()
 {
+    const perfil = await GETverificarsessao();
+    if (!perfil) 
+    {   
+        console.log("erro, sessao nao ativa");
+        return;
+    }
     const parametros = new URLSearchParams(window.location.search);
     const id = parametros.get("id");
 
@@ -29,6 +35,18 @@ async function carregarDemanda()
         return;
     }
 
+    const usuarios_projeto = await GETusuarios(projeto_id.id);
+    if(!usuarios_projeto || usuarios_projeto.length===0)
+    {
+        return;
+    }
+    
+    const select_responsavel = document.getElementById("responsavel_id");
+    select_responsavel.innerHTML = `<option value="nenhum">Nenhum</option>`;
+
+    usuarios_projeto.forEach((usuario)=>{
+        select_responsavel.innerHTML+=`<option value="${usuario.id_usuario}">${usuario.nome}</option>`;
+    })
     demanda_proj = demanda;
     renderizarDemanda(demanda, projeto_id.id);
     return;
@@ -58,7 +76,14 @@ function renderizarDemanda(demanda, projeto_id)
     tipo.value = demanda.tipo;
     prioridade.value = demanda.prioridade;
     projeto.value = demanda.projeto;
-    responsavel.value = demanda.responsavel;
+    if(demanda.id_responsavel===null)
+    {
+        responsavel.value = demanda.responsavel;
+    }
+    else
+    {
+        responsavel.value = demanda.id_responsavel;
+    }
     
 
 
@@ -159,13 +184,13 @@ function formatarDatetime(data)
     return resultado;
 }
 
-async function atualizarDemanda(demanda,responsavel_nome="nenhum")
+async function atualizarDemanda(demanda)
 {
     const nova_demanda =
     {
         prioridade: demanda.prioridade,
         status: demanda.status,
-        responsavel: responsavel_nome,
+        responsavel: demanda.responsavel,
         prazo: demanda.prazo
     };
     const resposta = await PUTdemanda(nova_demanda, id_projeto);

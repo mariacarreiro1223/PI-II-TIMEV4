@@ -6,6 +6,13 @@ let nome_projeto = "";
 
 async function carregarInfo()
 {
+    const perfil = await GETverificarsessao();
+    if (!perfil) 
+    {   
+        console.log("erro, sessao nao ativa");
+        return;
+    }
+
     const parametros = new URLSearchParams(window.location.search);
     id_projeto = Number(parametros.get("id"));
     
@@ -28,9 +35,27 @@ async function carregarInfo()
 
     const link_perfil = document.getElementById("link-perfil");
     link_perfil.innerHTML = `<a href="perfil.html?nome=${encodeURIComponent(nome_projeto.nome)}">Perfil</a>`;
+
+    if(perfil.perfil === "Membro da Equipe")
+    {
+        return
+    }
+
+    const usuarios_projeto = await GETusuarios(id_projeto);
+    if(!usuarios_projeto || usuarios_projeto.length===0)
+    {
+        return;
+    }
+    
+    const select_responsavel = document.getElementById("responsavel_id");
+    select_responsavel.innerHTML = `<option value="nenhum">Nenhum</option>`;
+
+    usuarios_projeto.forEach((usuario)=>{
+        select_responsavel.innerHTML+=`<option value="${usuario.id_usuario}">${usuario.nome}</option>`;
+    })
 }
 
-async function cadastrarDemanda(demanda,responsavel_nome="nenhum")
+async function cadastrarDemanda(demanda)
 {
     const nova_demanda =
     {
@@ -39,7 +64,7 @@ async function cadastrarDemanda(demanda,responsavel_nome="nenhum")
         tipo: demanda.tipo,
         prioridade: demanda.prioridade,
         projeto: nome_projeto.nome,
-        responsavel: responsavel_nome,
+        responsavel: demanda.responsavel,
         prazo: demanda.prazo
     };
     const resposta = await POSTdemanda(nova_demanda);

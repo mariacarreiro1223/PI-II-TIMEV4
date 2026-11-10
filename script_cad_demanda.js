@@ -8,6 +8,7 @@ const cdesc = document.querySelector("#descricao_id");
 const ctipo = document.querySelector("#tipodemanda_id");
 const cprioridade = document.querySelector("#prioridade_id");
 const cprojeto = document.querySelector("#projeto_associado_id");
+const cresponsavel = document.querySelector("#responsavel_id");
 const cprazo = document.querySelector("#prazo_finalizacao_id");
 
 const erro_titulo = document.querySelector("#erro_titulo_id");
@@ -69,6 +70,7 @@ formulario.addEventListener("submit",async function(event) {
     // const status = cstatus.value;
     const projeto = cprojeto.value;
     const prazo = cprazo.value;
+    const responsavel = cresponsavel.value;
     const dataPrazo = new Date(`${prazo}T00:00:00`); 
 
     // variável let que sofrerá alterações posteriormente
@@ -126,7 +128,7 @@ formulario.addEventListener("submit",async function(event) {
     if (formValido){
         try
         {
-            const dados = await cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,prazo});
+            const dados = await cadastrarDemanda({titulo,desc,tipo,prioridade,projeto,responsavel,prazo});
             resultado.classList.remove("d-none");
             resultadomsg.classList.remove("alert-danger");
             resultadomsg.classList.add("alert-sucess");

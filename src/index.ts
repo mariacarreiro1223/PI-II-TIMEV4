@@ -187,6 +187,7 @@ function formatarDataHora(valor: any): string {
 // No banco o responsável é guardado como NÚMERO (id), mas o front manda o NOME.
 // Esta função procura o id pelo nome. Devolve null se for "nenhum", vazio ou não existir.
 // async porque consulta o banco.
+/*
 async function buscarIdUsuarioPorNome(nome: any): Promise<number | null> {
     if (!nome || typeof nome !== "string" || nome.trim() === "" || nome === "nenhum") {
         return null;
@@ -200,6 +201,7 @@ async function buscarIdUsuarioPorNome(nome: any): Promise<number | null> {
     }
     return linhas[0].id_usuario;
 }
+*/
  
 // Grava UMA linha na tabela historico_demandas (o histórico nunca é apagado, como pede o escopo)
 async function registrarHistorico(
@@ -269,14 +271,26 @@ app.get("/usuarios", async (req: Request, res: Response) => {
     try {
         const email = req.query.email;
         const cpf = req.query.cpf;
+        const idProjeto = req.query.idprojeto;
 
         let sql = `
-            SELECT id_usuario, nome, cpf, telefone, data_nascimento AS dataNasc, email, perfil
-            FROM usuarios
-            WHERE ativo = TRUE
+            SELECT u.id_usuario, u.nome, u.cpf, u.telefone, u.data_nascimento AS dataNasc, u.email, u.perfil
+            FROM usuarios u
         `;
 
+        if (idProjeto) {
+            sql += ` INNER JOIN projeto_usuarios proj_u 
+                ON u.id_usuario = proj_u.id_usuario
+            `;
+        }
+
+        sql += ` WHERE u.ativo = TRUE`;
+
         const valores: any[] = [];
+        if (idProjeto) {
+            sql += " AND proj_u.id_projeto = ?";
+            valores.push(idProjeto);
+        }
 
         if (email) {
             sql += " AND email = ?";
@@ -594,6 +608,7 @@ interface demandaFormato {
     prioridade: string;
     status: string;
     projeto: string;
+    id_responsavel: number | null;
     responsavel: string;
     dataCriacao: string;
     dataAtualizacao: string;
@@ -606,7 +621,7 @@ interface demandaFormato {
 // As outras rotas reaproveitam isso, só acrescentando um WHERE no final.
 const SQL_DEMANDAS = `
     SELECT d.id_demanda AS id, d.titulo, d.descricao, d.tipo, d.prioridade, d.status,
-           p.nome AS projeto, u.nome AS responsavel,
+           p.nome AS projeto, u.nome AS responsavel, d.id_responsavel AS id_responsavel,
            d.data_criacao, d.data_atualizacao, d.prazo_finalizacao
     FROM demandas d
     JOIN projetos p ON p.id_projeto = d.id_projeto
@@ -624,6 +639,7 @@ function formatarDemanda(linha: any): demandaFormato {
         prioridade: paraCodigo(PRIORIDADES, linha.prioridade),
         status: paraCodigo(STATUS, linha.status),
         projeto: linha.projeto,
+        id_responsavel: linha.id_responsavel,
         responsavel: linha.responsavel || "nenhum",
         dataCriacao: formatarDataHora(linha.data_criacao),
         dataAtualizacao: formatarDataHora(linha.data_atualizacao),
@@ -798,7 +814,7 @@ app.post("/demandas", async (req: Request, res: Response) => {
         typeof prioridade !== "string" || typeof projeto !== "string" || typeof prazo !== "string") {
         return res.status(400).json({mensagem: "Formato dos dados inválido ou campos obrigatórios vazios!"});
     }
-    if(!titulo||!descricao||!tipo||!prioridade||!projeto||!prazo)
+    if(!titulo||!descricao||!tipo||!prioridade||!projeto||!responsavel||!prazo)
     {
         return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
     }
@@ -856,9 +872,10 @@ app.post("/demandas", async (req: Request, res: Response) => {
         }
  
         // Responsável é opcional; se vier um nome, ele precisa existir.
-        const idResponsavel = await buscarIdUsuarioPorNome(responsavel);
-        if (responsavel && responsavel !== "nenhum" && idResponsavel === null) {
-            return res.status(400).json({mensagem: "Responsável não encontrado!"});
+        let idResponsavel=null;
+        if(responsavel!=="nenhum")
+        {
+            idResponsavel=responsavel;
         }
         
         const [usuariosAtivos]: any = await pool.query(
@@ -1001,7 +1018,7 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
  
         const {prioridade,status,responsavel,prazo} = req.body;
  
-        if(typeof prioridade !== "string" || typeof status !== "string" || typeof prazo !== "string" || !prioridade || !status || !prazo)
+        if(typeof prioridade !== "string" || typeof status !== "string" || typeof prazo !== "string" || !prioridade || !status || !responsavel ||!prazo)
         {
             return res.status(400).json({mensagem: "Dados obrigatórios vazios!"});
         }
@@ -1050,11 +1067,24 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             }
         }
  
-        const idResponsavel = await buscarIdUsuarioPorNome(responsavel);
-        if (responsavel && responsavel !== "nenhum" && idResponsavel === null) {
-            return res.status(400).json({mensagem: "Responsável não encontrado!"});
+        let idResponsavel=null;
+        if(responsavel!=="nenhum")
+        {
+            idResponsavel=Number(responsavel);
         }
-        const novoResponsavel = responsavel || "nenhum";
+
+        let novoNomeResponsavel = "nenhum";
+        if (idResponsavel !== null) {
+            const [usuario]: any = await pool.query("SELECT nome FROM usuarios WHERE id_usuario = ?",[idResponsavel]);
+
+            if (usuario.length === 0)
+            {
+                return res.status(400).json({mensagem: "Responsável não encontrado!"});
+            }
+            novoNomeResponsavel = usuario[0].nome;
+        }
+
+        const novoResponsavel = idResponsavel;
         const idAutor = req.session.usuario.id_usuario;
         if (idAutor === null) {
             return res.status(400).json({mensagem: "Informe idUsuario válido (usuário ativo que está realizando a alteração) para registrar o histórico."});
@@ -1079,8 +1109,8 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
             await registrarHistorico(id, idAutor, campo, STATUS[demanda.status], STATUS[status]);
             editado++;
         }
-        if (demanda.responsavel !== novoResponsavel) {
-            await registrarHistorico(id, idAutor, "responsável", demanda.responsavel, novoResponsavel);
+        if (demanda.id_responsavel !== novoResponsavel) {
+            await registrarHistorico(id, idAutor, "responsável", demanda.responsavel, novoNomeResponsavel);
             editado++;
         }
         if (demanda.prazo !== prazo) {

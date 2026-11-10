@@ -13,10 +13,32 @@ async function tratarRespostaApi(resposta){
   return dados;
 }
 
-async function GETusuarios(email="",cpf="")
+async function GETusuarios(idProjeto="",email="",cpf="")
 {
     let url = `${API_BASE_URL}/usuarios`;
-    if(email)
+    if(idProjeto)
+    {
+        if(email)
+        {
+            if(cpf)
+            {
+                url += `?idprojeto=${encodeURIComponent(idProjeto)}&email=${encodeURIComponent(email)}&cpf=${encodeURIComponent(cpf)}`;
+            }
+            else
+            {
+                url += `?idprojeto=${encodeURIComponent(idProjeto)}&email=${encodeURIComponent(email)}`;
+            }
+        }
+        else if(cpf)
+        {
+            url += `?idprojeto=${encodeURIComponent(idProjeto)}&cpf=${encodeURIComponent(cpf)}`;
+        }
+        else
+        {
+            url += `?idprojeto=${encodeURIComponent(idProjeto)}`;
+        }
+    }
+    else if(email)
     {
         if(cpf)
         {
