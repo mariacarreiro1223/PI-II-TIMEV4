@@ -159,8 +159,8 @@ function ajustarStatusPossiveis(demanda, ismembro=false )
     else if(demanda.status==="em_revisao")
     {
         campo_status.innerHTML = `
-            <option value="em_andamento">Em andamento</option>
             <option value="em_revisao">Em revisão</option>
+            <option value="em_andamento">Em andamento</option>
         `;
         if(ismembro===false)
         {

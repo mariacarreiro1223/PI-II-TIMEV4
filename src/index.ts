@@ -1043,7 +1043,14 @@ app.put("/demandas/:id", async (req: Request, res: Response) => {
         {
             return res.status(400).json({mensagem: "Status inválido!"});
         }
-
+        if(
+            (demanda.status==="aberta" && (status==="em_revisao" || status==="concluida"))||
+            (demanda.status==="em_andamento" && (status==="aberta" || status==="concluida"))||
+            (demanda.status==="em_revisao" && (status==="aberta"))
+        )
+            return res.status(500).json({mensagem: "Ciclo de vida da demanda impossível!"});
+        if((demanda.status==="concluida")||(demanda.status==="cancelada"))
+            return res.status(500).json({mensagem: "Impossível editar demanda concluída ou cancelada!"});
         if(req.session.usuario.perfil==='Membro da Equipe')
         {
             if(status==='cancelada'|| status==='concluida')
