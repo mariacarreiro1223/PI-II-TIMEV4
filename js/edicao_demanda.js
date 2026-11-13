@@ -4,6 +4,8 @@ let id_projeto = -1;
 
 let demanda_proj;
 
+let ismembro = false;
+
 async function carregarDemanda()
 {
     const perfil = await GETverificarsessao();
@@ -18,7 +20,6 @@ async function carregarDemanda()
 
     if (!id) 
     {   
-        renderizarDemanda();
         return;
     }
     id_projeto = id;
@@ -26,7 +27,6 @@ async function carregarDemanda()
     const demanda = await GETdemanda(id)
     if(!demanda)
     {
-        renderizarDemanda();
         return;
     }
 
@@ -50,7 +50,7 @@ async function carregarDemanda()
     })
     demanda_proj = demanda;
 
-    let ismembro=false;
+    ismembro=false;
     if(perfil.perfil === "Membro da Equipe")
     {
         ismembro=true;
@@ -59,7 +59,7 @@ async function carregarDemanda()
     return;
 }
 
-function renderizarDemanda(demanda, projeto_id, ismembro=false)
+function renderizarDemanda(demanda, projeto_id)
 {
     if(!demanda)
     {
@@ -128,10 +128,10 @@ function renderizarDemanda(demanda, projeto_id, ismembro=false)
         });
     }
 
-    ajustarStatusPossiveis(demanda, ismembro);
+    ajustarStatusPossiveis(demanda);
 }
 
-function ajustarStatusPossiveis(demanda, ismembro=false )
+function ajustarStatusPossiveis(demanda)
 {
     const campo_status = document.getElementById("status_id");
     if(demanda.status==="aberta")
