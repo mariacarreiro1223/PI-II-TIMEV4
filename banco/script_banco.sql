@@ -1,3 +1,5 @@
+-- Maria Eduarda Gonçalves Carreiro
+
 CREATE DATABASE gerencia_demandas;
 USE gerencia_demandas;
 
