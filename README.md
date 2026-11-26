@@ -65,3 +65,8 @@ npm install
 
 5. Testar as rotas da API
     As rotas podem ser testadas utilizando o Thunder Client, no VS Code, ou outra ferramenta para realizar requisições HTTP.
+
+6. Entrar nas páginas HTML
+    Para acessar as páginas do frontend, utilize a extensão Live Server do VS Code e utilize a função "Go Live" para abrir um servidor local. 
+    Após isto, entre em http://127.0.0.1:5500/ e acesse a página login.html (as outras páginas irão redirecionar para o login caso o usuário
+    não esteja logado)
